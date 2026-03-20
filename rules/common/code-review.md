@@ -81,3 +81,17 @@
 - `APPROVE`
 - `REQUEST_CHANGES`
 - `COMMENT`
+
+## Required Checks
+
+在输出审查结论前，至少确认：
+
+- 已查看 diff、关键文件和验证证据，而不是只复述作者说明
+- findings 是否按阻塞性、风险和证据充分度排序
+- 若未发现问题，是否说明检查范围、依据和残余风险
+- 结论是否已回写到 PR、review 系统或团队约定的协作载体
+
+## Related Skills
+
+- 独立 reviewer 协议，参考 `code-review-expert`
+- 作者自审，参考 `self-review`

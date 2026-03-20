@@ -1,3 +1,9 @@
+---
+paths:
+  - "**/*.py"
+  - "**/*.pyi"
+---
+
 # Python Security
 
 > This file extends [../common/security.md](../common/security.md) with Python-specific content.
@@ -21,3 +27,10 @@
 - 对请求体、事件载荷、Webhook 输入和第三方 API 响应，优先使用 schema / model 校验
 - 对额外字段、向后兼容字段和协议演进策略应有显式决定，而不是隐式接受
 - 对跨边界数据优先先校验、再转换、再向核心逻辑传递
+
+## Required Checks
+
+- 是否避免在 Python 业务模块中直接读取和传播 secret
+- 异常日志是否保留堆栈，同时避免输出敏感字段
+- 请求体、事件载荷和第三方响应是否在边界层完成校验
+- 对协议演进相关字段是否有显式兼容策略，而不是默认静默接受

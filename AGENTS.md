@@ -31,10 +31,12 @@
 当前入口：
 
 - [rules/common/coding-style.md](rules/common/coding-style.md)
+- [rules/common/patterns.md](rules/common/patterns.md)
 - [rules/common/documentation.md](rules/common/documentation.md)
 - [rules/common/configuration.md](rules/common/configuration.md)
 - [rules/common/git-workflow.md](rules/common/git-workflow.md)
 - [rules/common/testing.md](rules/common/testing.md)
+- [rules/common/performance.md](rules/common/performance.md)
 - [rules/common/code-review.md](rules/common/code-review.md)
 - [rules/common/security.md](rules/common/security.md)
 - [rules/common/agents.md](rules/common/agents.md)
@@ -67,10 +69,11 @@
 建议遵循以下优先级：
 
 1. 项目自己的明确规则
-2. 本仓库 `rules/common/` 中的通用规则
+2. 项目级 Agent 入口文档
 3. 本仓库语言层规则，例如 `rules/python/`
-4. `.agents/skills/` 中的任务执行协议
-5. 工具自身默认行为
+4. 本仓库 `rules/common/` 中的通用规则
+5. `.agents/skills/` 中的任务执行协议
+6. 工具自身默认行为
 
 当项目私有规则与通用规则冲突时，优先项目私有规则。
 

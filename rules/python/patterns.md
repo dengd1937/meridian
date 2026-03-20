@@ -1,4 +1,12 @@
+---
+paths:
+  - "**/*.py"
+  - "**/*.pyi"
+---
+
 # Python Patterns
+
+> This file extends [../common/patterns.md](../common/patterns.md) with Python-specific content.
 
 本文件沉淀 Python 项目里常见的实现模式建议。
 
@@ -19,3 +27,10 @@
 - 对外部调用失败，应保留错误类型、关键标识和必要上下文
 - 对可重试和不可重试错误应尽量区分，而不是统一包装成模糊异常
 - 若项目有结构化日志、request_id 或 trace_id 约定，应在关键路径上保持贯通
+
+## Required Checks
+
+- 新增抽象前，先确认仓库里是否已有现成的 client / gateway / service 模式
+- 输入校验、模型转换和业务逻辑是否仍然保持在清晰的层次边界内
+- 是否避免把 `dict[str, Any]` 在多个模块之间原样传递
+- 外部调用、重试和错误包装是否仍然能保留足够诊断信息

@@ -41,3 +41,12 @@ environment variables > config files > code defaults
 ```
 
 敏感配置通常应通过环境变量或 secret 机制覆盖，而不是写入仓库默认配置。
+
+## Required Checks
+
+在新增或修改配置项前，至少确认：
+
+- 配置访问是否继续通过统一 settings / config 入口
+- 默认值、优先级、类型转换和来源映射是否已显式定义
+- `.env.example`、默认配置文件或模板是否完成同步更新
+- 受影响的文档、部署说明和必要测试是否一起更新

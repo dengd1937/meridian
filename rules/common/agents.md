@@ -39,8 +39,25 @@
 
 1. 更贴近代码或目录的项目规则
 2. 项目级 Agent 入口文档
-3. 本仓库的通用 `rules/`
-4. 本仓库的共享 `.agents/skills/`
-5. 工具自身默认行为
+3. 本仓库语言层规则，例如 `rules/python/`
+4. 本仓库通用 `rules/common/`
+5. 本仓库的共享 `.agents/skills/`
+6. 工具自身默认行为
 
 当更具体、更新更近的规则存在时，应优先服从该规则。
+
+## Required Checks
+
+在开始执行任务前，至少确认：
+
+- 是否已经识别任务类型，并读取了对应入口文档、规则或 skill
+- 是否保持最小充分上下文，而不是无差别扫描整个仓库
+- 是否把仓库文档和可执行证据作为事实来源，而不是凭记忆假设
+- 若进入独立 reviewer 流程，是否切换到隔离上下文而不是在 Author 会话里自审
+
+## Related Skills
+
+- 提交、PR 和交付链路，参考 `git-workflow`
+- 独立审查，参考 `code-review-expert`
+- 作者自审，参考 `self-review`
+- 设计评审与结构判断，参考 `design-review`

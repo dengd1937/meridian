@@ -1,3 +1,9 @@
+---
+paths:
+  - "**/*.py"
+  - "**/*.pyi"
+---
+
 # Python Testing
 
 > This file extends [../common/testing.md](../common/testing.md) with Python-specific content.
@@ -38,3 +44,10 @@ uv run pytest
 - 能复用现有 fixture、snapshot、样例 JSON 时优先复用
 - fixture 数据的变更应是显式更新，而不是被测试被动跟随
 - 当项目依赖快照数据时，应明确说明快照的维护方式和更新意图
+
+## Required Checks
+
+- 是否至少运行了与改动直接相关的 `ruff` 和 `pytest` 验证
+- Web 层、异步逻辑或外部客户端改动是否落到了合适的测试层级
+- 外部依赖是否通过 mock、stub、fake service 或 skip 策略隔离
+- fixture、snapshot 和样例 JSON 的更新是否是显式且可解释的

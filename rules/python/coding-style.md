@@ -1,3 +1,9 @@
+---
+paths:
+  - "**/*.py"
+  - "**/*.pyi"
+---
+
 # Python Coding Style
 
 > This file extends [../common/coding-style.md](../common/coding-style.md) with Python-specific content.
@@ -44,3 +50,10 @@ uv run pytest
 - 配置访问应通过统一 settings 层，不要在业务模块中散落 `os.environ`
 - 外部输入校验、模型转换和协议兼容逻辑应尽量放在边界层
 - 错误处理应保留原始异常上下文，避免随意吞错或改成无法定位的问题描述
+
+## Required Checks
+
+- 变更是否延续了项目既有的 `uv`、`ruff`、`pytest` 工具链
+- 公共函数和跨模块边界是否补齐了必要类型注解
+- 输入模型、Pydantic 模型或 schema 是否明确了额外字段与兼容策略
+- 是否避免在业务模块中直接读取 `os.environ` 或散落配置解析逻辑
