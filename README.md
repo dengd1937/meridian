@@ -18,7 +18,7 @@
    共享 skill 真源，保持开箱即用
 3. `rules/`
    通用规则层，优先沉淀编码规范、测试规范、交付流程、review 和 agent 协作约束
-4. `.claude/`、`.cursor/`、`.trae/`
+4. `.claude/`、`.codex/`、`.cursor/`、`.trae/`
    工具适配层，尽量保持轻量
 
 ## 目录结构
@@ -32,7 +32,7 @@ dev-agent-foundry/
 │       ├── code-review-expert/
 │       ├── design-review/
 │       ├── doc-gardening/
-│       └── self-review/
+│       └── ...
 ├── rules/
 │   ├── README.md
 │   ├── common/
@@ -52,6 +52,8 @@ dev-agent-foundry/
 ├── .claude/
 │   ├── README.md
 │   └── skills -> ../.agents/skills
+├── .codex/
+│   └── README.md
 ├── .cursor/
 │   ├── README.md
 │   └── skills -> ../.agents/skills
@@ -66,9 +68,10 @@ dev-agent-foundry/
 |---|---|---|
 | [.agents/skills/git-workflow](.agents/skills/git-workflow/SKILL.md) | 交付工作流 | commit / push / PR / CI / merge 全流程闭环 |
 | [.agents/skills/code-review-expert](.agents/skills/code-review-expert/SKILL.md) | 独立代码审查 | findings 驱动的结构化 review 协议 |
-| [.agents/skills/self-review](.agents/skills/self-review/SKILL.md) | 本地自审 | 独立可选 skill，当前不在默认工作流中 |
 | [.agents/skills/design-review](.agents/skills/design-review/SKILL.md) | 设计方案审查 | 完整性、可行性、安全性、可维护性四维度 |
 | [.agents/skills/doc-gardening](.agents/skills/doc-gardening/SKILL.md) | 文档园艺 | 检测并修复文档与代码之间的漂移 |
+| [.agents/skills/planner](.agents/skills/planner/SKILL.md) | 实施规划 | 多步骤任务的影响面分析、阶段拆分与 handoff-ready 计划输出 |
+| [.agents/skills/tdd-guide](.agents/skills/tdd-guide/SKILL.md) | 测试优先实现 | 用失败测试驱动实现，执行 `RED -> GREEN -> REFACTOR` |
 | [.agents/skills/python-patterns](.agents/skills/python-patterns/SKILL.md) | Python 开发模式 | Pythonic idioms、类型注解、异常处理、包组织 |
 | [.agents/skills/django-security](.agents/skills/django-security/SKILL.md) | Django 安全实践 | Django 认证鉴权、CSRF/XSS/SQL 注入、生产安全配置 |
 | [.agents/skills/python-testing](.agents/skills/python-testing/SKILL.md) | Python 测试策略 | pytest、TDD、fixtures、mock、覆盖率与测试分层 |
@@ -124,6 +127,7 @@ git submodule add https://github.com/dengd1937/dev-agent-foundry.git .agents/dev
 
 - 共享 skill 只有一份真源，统一放在 `.agents/skills/`
 - 工具适配层尽量不复制 skill 内容，优先通过软链接接入
+- agent 适配优先做薄 wrapper；无法确认官方仓库格式时，先落蓝图文档，不发明伪标准
 - `rules/` 和 `skills/` 职责分离，避免相互混杂
 - 规则采用 `common/ + language-specific/` 分层，语言层覆盖通用默认值
 - 新项目应能在最少改动下直接复用已有 skill

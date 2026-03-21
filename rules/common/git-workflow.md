@@ -52,7 +52,9 @@ git checkout -b <type>/<short-description>
 
 ## 独立 Reviewer 协作
 
-以下情况默认建议发起独立 reviewer：
+进入 PR 阶段后，默认必须发起一次独立 reviewer。
+
+以下改动默认都属于必须执行独立 reviewer 的范围：
 
 - 生产代码、测试、脚本、配置、依赖、CI、部署改动
 - Bug 修复、跨模块重构、外部系统集成改动
@@ -62,16 +64,17 @@ git checkout -b <type>/<short-description>
 
 1. Author 先完成本地改动与最小必要验证
 2. Author 创建或更新 PR
-3. Author 新开一个 Agent 会话执行 `code-review-expert`
+3. Author 在与实现上下文隔离的 review 上下文中执行 `code-review-expert`
 4. reviewer 基于 PR diff、关键文件和本地验证摘要输出 findings
 5. reviewer 结果应直接回写到 PR review 或 PR comment
 6. Author 读取 findings，修复后继续 push / 更新 PR
 
 执行约束：
 
-- 当前 Author 会话不得在同一上下文中充当独立 reviewer
-- 这里要求的是“新开 Agent 会话”的流程独立性，不要求 reviewer 使用不同 GitHub 账号
-- reviewer 结果默认作为协作信息，不由 CI 自动阻塞或放行
+- reviewer 必须与 Author 的实现上下文隔离
+- 如果工具原生 agent/subagent 已提供独立上下文，则无需强制新开窗口
+- 如果工具不能保证独立上下文，则应通过新会话或新窗口执行 review
+- reviewer 结果默认作为 PR 阶段的强制协作门禁，不由 CI 自动阻塞或放行
 
 ## Pull Request 规则
 
@@ -115,7 +118,7 @@ PR 描述至少应包含：
 - 禁止把“提交到远端”理解成允许直推受保护分支
 - 禁止跳过 CI 或关键反馈直接宣布交付完成
 - 禁止把“分支已推送”或“PR 已创建”误判为交付完成，除非用户明确要求停在该步骤
-- 禁止在当前 Author 会话中直接充当独立 reviewer
+- 禁止在当前 Author 实现上下文中直接充当独立 reviewer
 
 ## 完成态定义
 
