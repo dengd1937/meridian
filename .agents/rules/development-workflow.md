@@ -9,6 +9,7 @@ The Feature Implementation Workflow describes the development pipeline: research
 1. **Research & Reuse** _(mandatory before any new implementation)_
    - **GitHub code search first:** Run *GitHub MCP* to find existing implementations, templates, and patterns before writing anything new.
    - **Library docs second:** Use Context7 or primary vendor docs to confirm API behavior, package usage, and version-specific details before implementing.
+   - **Use docs-lookup when behavior is unclear:** If framework, API, or third-party library behavior is uncertain, run **docs-lookup** agent before implementing.
    - **Exa only when the first two are insufficient:** Use Exa for broader web research or discovery after GitHub search and primary docs.
    - **Check package registries:** Search npm, PyPI, crates.io, and other registries before writing utility code. Prefer battle-tested libraries over hand-rolled solutions.
    - **Search for adaptable implementations:** Look for open-source projects that solve 80%+ of the problem and can be forked, ported, or wrapped.
@@ -28,6 +29,7 @@ The Feature Implementation Workflow describes the development pipeline: research
    - Write tests first (RED)
    - Implement to pass tests (GREEN)
    - Refactor (IMPROVE)
+   - Critical user flow changes: add/update E2E coverage and run **e2e-runner** agent
    - Verify 80%+ coverage
 
 4. **Quality Gate** _(after editing files)_
@@ -39,7 +41,10 @@ The Feature Implementation Workflow describes the development pipeline: research
    - Fix all errors before proceeding to code review
 
 5. **Code Review** _(MANDATORY gate before commit)_
-   - Claude MUST run **code-reviewer** agent (Python projects: also **python-reviewer**) immediately after writing code, before any `git commit` or `git push`
+   - Claude MUST run **code-reviewer** agent immediately after writing code, before any `git commit` or `git push`
+   - Python projects: also run **python-reviewer** agent
+   - TypeScript/Next.js projects: also run **typescript-reviewer** agent
+   - Auth, input validation, public endpoints, HTML rendering, file upload, or secret/env handling changes: also run **security-reviewer** agent
    - Address CRITICAL and HIGH issues before proceeding
    - Fix MEDIUM issues when possible
    - Do NOT commit until review is complete and blockers are resolved

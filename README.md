@@ -32,8 +32,13 @@ meridian/
 │       ├── commit-quality/
 │       ├── design-review/
 │       ├── design-review-codex/
+│       ├── e2e-testing/
 │       ├── git-workflow/
+│       ├── investigate/
+│       ├── retro/
+│       ├── security-reviewer/
 │       ├── tdd-workflow/
+│       ├── using-git-worktrees/
 │       ├── django-security/
 │       ├── python-patterns/
 │       └── python-testing/
@@ -46,7 +51,9 @@ meridian/
 │   │   ├── refactor-cleaner.md
 │   │   ├── doc-updater.md
 │   │   ├── docs-lookup.md
-│   │   └── python-reviewer.md
+│   │   ├── python-reviewer.md
+│   │   ├── typescript-reviewer.md
+│   │   └── e2e-runner.md
 │   ├── rules -> ../.agents/rules
 │   └── skills -> ../.agents/skills
 └── .trae/
@@ -64,10 +71,13 @@ meridian/
 | [python-patterns](.agents/skills/python-patterns/SKILL.md) | Pythonic idioms、类型注解、异常处理、包组织 |
 | [python-testing](.agents/skills/python-testing/SKILL.md) | pytest、TDD、fixtures、mock、覆盖率与测试分层 |
 | [django-security](.agents/skills/django-security/SKILL.md) | Django 认证鉴权、CSRF/XSS/SQL 注入、生产安全配置 |
+| [e2e-testing](.agents/skills/e2e-testing/SKILL.md) | Playwright E2E 测试模式、POM、CI 集成、flaky 测试治理 |
+| [security-review](.agents/skills/security-reviewer/SKILL.md) | 敏感功能开发与提交前的安全审查清单、漏洞模式与防护建议 |
 | [investigate](.agents/skills/investigate/SKILL.md) | Bug 根因调查门禁 — 假设优先调试，禁止无调查改代码 |
 | [retro](.agents/skills/retro/SKILL.md) | 任务复盘 — 审视流程遵守、决策路径与 AI 行为，提出改进建议 |
 | [design-review](.agents/skills/design-review/SKILL.md) | 方案对抗性审查 — 在批准前压力测试架构、可行性、测试、性能与范围 |
 | [design-review-codex](.agents/skills/design-review-codex/SKILL.md) | 通过 Codex 获取独立跨模型方案审查（Claude Code 专用） |
+| [using-git-worktrees](.agents/skills/using-git-worktrees/SKILL.md) | 使用 git worktrees 并行开发多个任务，减少 stash 和上下文切换 |
 
 ## 当前 Claude Code Agents
 
@@ -81,6 +91,8 @@ meridian/
 | `doc-updater` | 文档与 codemap 更新 | 文档同步 |
 | `docs-lookup` | 通过 Context7 查阅文档 | API / 文档查询 |
 | `python-reviewer` | Python 代码审查 | Python 项目 |
+| `typescript-reviewer` | TypeScript / React / Next.js 代码审查 | TypeScript / Next.js 项目 |
+| `e2e-runner` | 浏览器端 E2E 测试执行 | 关键用户路径变更 |
 
 ## 使用方式
 

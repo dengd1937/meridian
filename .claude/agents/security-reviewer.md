@@ -101,7 +101,7 @@ If you find a CRITICAL vulnerability:
 
 ## Reference
 
-For detailed vulnerability patterns, code examples, report templates, and PR review templates, see skill: `security-review`.
+For detailed vulnerability patterns, code examples, report templates, and PR review templates, see skill: `security-reviewer`.
 
 ---
 

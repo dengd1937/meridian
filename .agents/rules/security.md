@@ -52,3 +52,24 @@ api_key = os.environ["OPENAI_API_KEY"]  # Raises KeyError if missing
 ### Reference
 
 See skill: `django-security` for Django-specific security guidelines (if applicable).
+
+
+## TypeScript/JavaScript Security
+
+### Secret Management
+
+```typescript
+// NEVER: Hardcoded secrets
+const openAiCredential = "<hardcoded-example>"
+
+// ALWAYS: Environment variables
+const openAiApiKey = process.env.OPENAI_API_KEY
+
+if (!openAiApiKey) {
+  throw new Error('OPENAI_API_KEY not configured')
+}
+```
+
+### Agent Support
+
+- Use **security-reviewer** skill for comprehensive security audits

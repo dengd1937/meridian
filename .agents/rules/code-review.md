@@ -66,6 +66,7 @@ Use these agents for code review:
 | **code-reviewer** | General code quality, patterns, best practices |
 | **security-reviewer** | Security vulnerabilities, OWASP Top 10 |
 | **python-reviewer** | Python specific issues |
+| **typescript-reviewer** | TypeScript/React type safety, async patterns, hooks |
 
 ## Review Workflow
 

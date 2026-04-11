@@ -23,6 +23,8 @@ This is a **production-ready AI coding plugin** providing 36 specialized agents,
 | doc-updater       | Documentation and codemaps        | Updating docs                  |
 | docs-lookup       | Documentation lookup via Context7 | API/docs questions             |
 | python-reviewer   | Python code review                | Python projects                |
+| typescript-reviewer | TypeScript/React code review    | TypeScript/Next.js projects    |
+| e2e-runner        | Browser E2E testing               | Critical user flow changes     |
 
 
 ## Agent Orchestration
@@ -33,6 +35,7 @@ Use agents proactively without user prompt:
 - Code just written/modified → **code-reviewer**
 - Bug fix or new feature → **tdd-guide**
 - Security-sensitive code → **security-reviewer**
+- Critical user flow changes → **e2e-runner**
 
 Use parallel execution for independent operations — launch multiple agents simultaneously.
 
@@ -117,4 +120,3 @@ See [.agents/rules/development-workflow.md](.agents/rules/development-workflow.m
 - Code is readable and maintainable
 - Performance is acceptable
 - User requirements are met
-
