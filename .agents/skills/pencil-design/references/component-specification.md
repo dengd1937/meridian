@@ -11,7 +11,7 @@ Covers capturing high-fidelity designs and writing implementation contracts for 
 ```javascript
 // Read the wireframe to understand current structure
 pencil_batch_get({
-  filePath: "designs/<feature>/design.pen",
+  filePath: "docs/designs/<feature>/design.pen",
   nodeIds: ["screenId"],
   readDepth: 5
 })
@@ -35,14 +35,14 @@ Use `pencil_get_screenshot` for each component state:
 
 ```javascript
 pencil_get_screenshot({
-  filePath: "designs/<feature>/design.pen",
+  filePath: "docs/designs/<feature>/design.pen",
   nodeId: "componentId"
 })
 ```
 
 ## Component Contract Document
 
-For each key component, create a contract document at `designs/<feature>/components/<ComponentName>.md`.
+For each key component, create a contract document at `docs/designs/<feature>/components/<ComponentName>.md`.
 
 ### Template
 
@@ -96,7 +96,7 @@ Map each Pencil component to its shadcn/ui equivalent before writing the spec. S
 ```javascript
 // Discover reusable components in the design
 pencil_batch_get({
-  filePath: "designs/<feature>/design.pen",
+  filePath: "docs/designs/<feature>/design.pen",
   patterns: [{ reusable: true }],
   readDepth: 3
 })

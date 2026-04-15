@@ -123,12 +123,12 @@ Design iterations produce many intermediate screenshots. Committing every one of
 ### Two-tier storage
 
 ```
-designs/<feature>/screenshots/
+docs/designs/<feature>/screenshots/
 ├── *.png                # Final approved screenshots (committed)
 └── .tmp/                # Intermediate iteration screenshots (GITIGNORED)
 ```
 
-- `designs/**/screenshots/.tmp/` MUST be listed in `.gitignore`.
+- `docs/designs/**/screenshots/.tmp/` MUST be listed in `.gitignore`.
 - Save every `pencil_get_screenshot` output to `.tmp/` first.
 - Only **promote** a screenshot to `screenshots/` after the section has been approved by the user.
 

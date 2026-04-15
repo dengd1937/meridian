@@ -40,7 +40,7 @@ All tokens across all features MUST follow this canonical naming convention. Thi
 3. **Foreground pairs use `-foreground` suffix** — `primary` + `primary-foreground`, `card` + `card-foreground`. Never `primary-text` or `on-primary`.
 4. **Scale uses `-sm/md/lg/xl` suffix** — `radius-md`, `spacing-lg`, `shadow-sm`. Never `radius-medium` or `radius2`.
 5. **Prefix by category for non-color tokens** — `radius-*`, `spacing-*`, `shadow-*`, `font-*`, `text-*`, `breakpoint-*`. Colors are the exception: they use the semantic name directly (`primary`, not `color-primary`).
-6. **Never use feature-specific names** — a token in `designs/alerts/` named `alert-red` is wrong. Use a shared `destructive` token instead.
+6. **Never use feature-specific names** — a token in `docs/designs/alerts/` named `alert-red` is wrong. Use a shared `destructive` token instead.
 
 ### Canonical Names Reference
 
@@ -148,7 +148,7 @@ pencil_get_variables
         | flat key-value (e.g., "primary": "#3b82f6")
 scripts/tokens-convert.ts
         | Pencil flat -> W3C DTCG JSON
-designs/<feature>/tokens/w3c.json
+docs/designs/<feature>/tokens/w3c.json
         |
 Style Dictionary + style-dictionary-utils
         | build

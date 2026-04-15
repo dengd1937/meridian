@@ -26,10 +26,10 @@ Confidence calibration: Findings with confidence < 5 go to appendix, not the mai
 
 The caller provides:
 
-1. **`designs/<feature>/` directory path** — the root of all design artifacts
+1. **`docs/designs/<feature>/` directory path** — the root of all design artifacts
 2. **Pencil MCP results** (already saved to filesystem):
-   - Screenshots in `designs/<feature>/screenshots/` (`.png` files — presence is checked, contents are NOT analyzed)
-   - Layout report saved as `designs/<feature>/screenshots/layout-report.md`
+   - Screenshots in `docs/designs/<feature>/screenshots/` (`.png` files — presence is checked, contents are NOT analyzed)
+   - Layout report saved as `docs/designs/<feature>/screenshots/layout-report.md`
 
 You read from filesystem only. You do NOT call Pencil MCP tools. You do NOT analyze PNG files.
 
@@ -45,13 +45,13 @@ Before reviewing, enumerate all artifacts to understand scope:
 
 ```bash
 # List all files in the design directory
-find designs/<feature>/ -type f | sort
+find docs/designs/<feature>/ -type f | sort
 ```
 
 Expected artifact structure at V2-4:
 
 ```
-designs/<feature>/
+docs/designs/<feature>/
 ├── intent.md                         # REQUIRED: design intent and decision log
 ├── design.pen                        # REQUIRED: final high-fidelity design (binary, presence only)
 ├── wireframes.pen                    # OPTIONAL: wireframes (history)
@@ -125,7 +125,7 @@ Required sections per component contract:
 6. Design Constraints — visual or behavioral constraints that implementation must preserve
 
 How to check:
-1. Glob designs/<feature>/components/*.md — list all contract files
+1. Glob docs/designs/<feature>/components/*.md — list all contract files
 2. Read each contract file — verify all 6 sections present
 3. Check States table — verify at least default + hover + disabled documented when applicable
 4. Check Responsive — verify at least mobile (<640px) and desktop (>=1024px) behavior
@@ -160,7 +160,7 @@ Focus:
 
 How to check:
 1. Filesystem structure:
-   a. Glob designs/<feature>/ — verify REQUIRED artifacts exist
+   a. Glob docs/designs/<feature>/ — verify REQUIRED artifacts exist
    b. Flag any missing REQUIRED files (intent.md, design.pen, tokens/*, components/*.md, screenshots/layout-report.md)
 2. Layout report review:
    a. Read layout-report.md
@@ -302,13 +302,13 @@ For each component contract:
 
 ## Output Format
 
-All output is returned in conversation. The caller (main conversation) will write the verdict to `designs/<feature>/review-verdict.md` after user approval — you do NOT write files yourself.
+All output is returned in conversation. The caller (main conversation) will write the verdict to `docs/designs/<feature>/review-verdict.md` after user approval — you do NOT write files yourself.
 
 ```markdown
 ## Design Review Report
 
 ### Artifact Inventory
-[List all files found in designs/<feature>/]
+[List all files found in docs/designs/<feature>/]
 
 ### Dimension Scores
 

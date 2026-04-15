@@ -52,10 +52,10 @@ The v2 workflow keeps the pipeline strict where it matters and lighter everywher
 
 ## Directory Layout
 
-All design artifacts live under a single feature directory. Do not spread design docs between `docs/plans/` and `designs/`.
+All design artifacts live under a single feature directory at `docs/designs/<feature>/`. Keep product docs, design artifacts, and implementation plans in their own subtrees under `docs/`.
 
 ```text
-designs/<feature>/
+docs/designs/<feature>/
 ├── intent.md                         # V2-1: design intent and decision log
 ├── wireframes.pen                    # V2-2: wireframe file
 ├── design.pen                        # V2-3: final high-fidelity design
@@ -78,7 +78,7 @@ designs/<feature>/
 
 **Git rules:**
 
-- Add `designs/**/screenshots/.tmp/` to `.gitignore`.
+- Add `docs/designs/**/screenshots/.tmp/` to `.gitignore`.
 - Only promote screenshots from `.tmp/` to `screenshots/` after approval.
 - `intent.md` is long-term knowledge. Keep it for the life of the feature.
 
@@ -135,7 +135,7 @@ Investigate requirements and establish design direction before editing the canva
 **Actions:**
 
 - Analyze the UI scope: pages, components, interactions, and constraints
-- Search the project for reusable design assets and existing `designs/` directories
+- Search the project for reusable design assets and existing `docs/designs/` directories
 - Use `pencil_batch_get` with `patterns: [{ reusable: true }]` to discover reusable components
 - Use `pencil_get_variables` to inspect the existing token system
 - Review relevant frontend patterns and references
@@ -143,7 +143,7 @@ Investigate requirements and establish design direction before editing the canva
 
 **Output:**
 
-- `designs/<feature>/intent.md`
+- `docs/designs/<feature>/intent.md`
 
 **Gate 1:** User confirms the design direction.
 
@@ -169,8 +169,8 @@ Create the page structure and establish the minimum token set needed to support 
 
 **Outputs:**
 
-- `designs/<feature>/wireframes.pen`
-- Final approved wireframe screenshot(s) in `designs/<feature>/screenshots/`
+- `docs/designs/<feature>/wireframes.pen`
+- Final approved wireframe screenshot(s) in `docs/designs/<feature>/screenshots/`
 
 **Gate 2:** User confirms layout, page regions, and overall structure.
 
@@ -220,7 +220,7 @@ Refine the wireframe into the final design, expand the token system, and documen
 **Outputs:**
 
 ```text
-designs/<feature>/
+docs/designs/<feature>/
 ├── design.pen
 ├── tokens/
 │   ├── w3c.json
@@ -250,12 +250,12 @@ Review all design artifacts before handoff. This is the single hard approval gat
 1. Capture final screenshots for each documented breakpoint.
 2. Run `pencil_snapshot_layout({ problemsOnly: true })` on relevant screens.
 3. Save results:
-   - approved screenshots -> `designs/<feature>/screenshots/`
-   - layout issues -> `designs/<feature>/screenshots/layout-report.md`
+   - approved screenshots -> `docs/designs/<feature>/screenshots/`
+   - layout issues -> `docs/designs/<feature>/screenshots/layout-report.md`
 
 **Phase 2 - `design-reviewer` agent**
 
-Run the `design-reviewer` agent against `designs/<feature>/`. The agent checks:
+Run the `design-reviewer` agent against `docs/designs/<feature>/`. The agent checks:
 
 | Dimension | What It Checks |
 |-----------|----------------|
@@ -271,12 +271,12 @@ Run the `design-reviewer` agent against `designs/<feature>/`. The agent checks:
 
 1. Review the artifact report in conversation.
 2. Present final screenshots and review findings.
-3. On approval, write the verdict and approval decision to `designs/<feature>/review-verdict.md`.
+3. On approval, write the verdict and approval decision to `docs/designs/<feature>/review-verdict.md`.
 
 **Outputs:**
 
-- `designs/<feature>/screenshots/layout-report.md`
-- `designs/<feature>/review-verdict.md`
+- `docs/designs/<feature>/screenshots/layout-report.md`
+- `docs/designs/<feature>/review-verdict.md`
 - Design review report in conversation
 
 **Gate 3:** User explicitly approves. Only then does the workflow hand off to development.
@@ -293,7 +293,7 @@ After `Gate 3`, the design artifacts become inputs to the development workflow.
 | Step 2 (Plan First) | `components/*.md`, `review-verdict.md` | Reference component contracts and review findings in the implementation plan |
 | Step 3 (TDD) | `tokens/*`, `components/*.md` | Validate token usage, run Playwright visual regression, run axe-core accessibility audit |
 
-**Implementation-side rule:** If implementation changes the visual contract or reveals a missing token, update `designs/<feature>/` in the same PR. Do not patch around the gap with hardcoded values.
+**Implementation-side rule:** If implementation changes the visual contract or reveals a missing token, update `docs/designs/<feature>/` in the same PR. Do not patch around the gap with hardcoded values.
 
 ---
 
@@ -311,7 +311,7 @@ If design work or implementation reveals a missing token:
 
 1. Add it in Pencil with `pencil_set_variables`
 2. Re-run the token pipeline
-3. Update `designs/<feature>/tokens/` in the same change
+3. Update `docs/designs/<feature>/tokens/` in the same change
 4. Resume the interrupted step
 
 Never edit `w3c.json`, `tokens.css`, `tokens.ts`, or `tailwind-preset.ts` by hand as a shortcut.
@@ -371,7 +371,7 @@ If the design direction changes fundamentally:
    - workflow level: `L1` or `L2`
    - current stage: `V2-1` to `V2-4` when applicable
    - one paragraph describing the change
-2. Any `.pen` change must include updated screenshots in `designs/<feature>/screenshots/`.
+2. Any `.pen` change must include updated screenshots in `docs/designs/<feature>/screenshots/`.
 3. Reviewers evaluate `intent.md`, screenshots, `tokens/*`, `components/*.md`, and `review-verdict.md`. Do not rely on `.pen` files as review artifacts.
 
 ### Merge Conflicts
@@ -408,7 +408,7 @@ pencil_get_variables
         -> flat key-value variables
 scripts/tokens-convert.ts
         -> W3C DTCG JSON
-designs/<feature>/tokens/w3c.json
+docs/designs/<feature>/tokens/w3c.json
         -> Style Dictionary build
   ├── tokens.css
   ├── tokens.ts
@@ -431,11 +431,11 @@ Design artifacts are validated in development CI, not at `V2-4`.
 
    ```bash
    npm run tokens:build
-   git diff --exit-code designs/*/tokens/
+   git diff --exit-code docs/designs/*/tokens/
    ```
 
 2. **Component contract structure**
-   - Every `designs/*/components/*.md` must contain:
+   - Every `docs/designs/*/components/*.md` must contain:
      - `## Variants`
      - `## States`
      - `## Responsive`
@@ -445,9 +445,9 @@ Design artifacts are validated in development CI, not at `V2-4`.
 3. **No arbitrary Tailwind values**
    - CI should reject arbitrary visual values such as `bg-[#hex]`, `w-[375px]`, `rounded-[6px]`
 4. **`.tmp/` not committed**
-   - CI rejects any `designs/**/screenshots/.tmp/` file
+   - CI rejects any `docs/designs/**/screenshots/.tmp/` file
 5. **Intent doc present**
-   - Any PR touching `designs/<feature>/` must include a non-empty `intent.md`
+   - Any PR touching `docs/designs/<feature>/` must include a non-empty `intent.md`
 
 ---
 
@@ -469,7 +469,7 @@ This workflow delegates Pencil MCP operations to the built-in `pencil-design` sk
 ### design-reviewer agent
 
 - **Trigger:** `V2-4`
-- **Execution:** isolated artifact review against `designs/<feature>/`
+- **Execution:** isolated artifact review against `docs/designs/<feature>/`
 - **Scope:** token coverage, contract completeness, structural consistency, accessibility documentation, responsive coverage
 
 > The `design-review` skill remains available for plan-level review in development workflow Step 2. The `design-reviewer` agent is specific to design artifact review at `V2-4`.
@@ -480,7 +480,7 @@ This workflow delegates Pencil MCP operations to the built-in `pencil-design` sk
 
 This design workflow is optional. If no UI work is involved, the development workflow runs unchanged.
 
-When design artifacts exist in `designs/<feature>/`, the development workflow should:
+When design artifacts exist in `docs/designs/<feature>/`, the development workflow should:
 
 - **Step 1 (Research & Reuse):** read `intent.md`, inspect screenshots, and confirm the visual target
 - **Step 2 (Plan First):** reference component contracts and review findings in the plan

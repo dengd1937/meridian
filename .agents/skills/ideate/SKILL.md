@@ -236,11 +236,19 @@ MVP 范围 = P0 功能集合，目标是 [一句话描述 MVP 交付的核心价
 理由：[一句话]
 ```
 
-> **注意：** Output 2 和 Output 3 源自相同的 Phase 1-3 输出。Output 2 面向设计（UI 范围、用户流程），Output 3 面向工程（MVP 范围、优先级、风险）。确保两份文档内容一致。
+> **注意：** Output 2 和 Output 3 源自相同的 Phase 1-3 输出。Output 2 是持久化产品文档，Output 3 说明这份文档如何被工程侧消费。不要再额外派生第二份工程文档，以免与 `planner` 的 `docs/plans/<feature-name>.md` 冲突。
+
+**L1 补充要求：**
+
+- 若路由到 `L1`，`ideate` 不创建设计目录或实施计划文件。
+- `ideate` 需要在对话中明确提示后续执行者补齐：
+  - before/after 截图
+  - 一段简短变更说明，记录在 PR 或已有的 `docs/designs/<feature>/intent.md`
+- 若用户仍希望保留产品侧输入，可写入 `docs/product/<feature-name>.md` 的简版条目。
 
 **输出 2：产品定义（给 Design Workflow V2-1）**
 
-写入 `docs/plans/<feature-name>-product-brief.md`（仅当需要 L2 标准设计流程时）。此文件是 `V2-1` 的输入，`V2-1` 在其基础上生成 `designs/<feature>/intent.md`，两者是不同文件。
+写入 `docs/product/<feature-name>.md`（仅当需要 L2 标准设计流程时）。此文件是 `V2-1` 的输入，`V2-1` 在其基础上生成 `docs/designs/<feature>/intent.md`，两者是不同文件。
 
 ```markdown
 # [Feature Name] — Design Brief
@@ -284,9 +292,9 @@ MVP 范围 = P0 功能集合，目标是 [一句话描述 MVP 交付的核心价
 [技术约束、品牌要求、已有设计规范等]
 ```
 
-**输出 3：产品策略（给 Development Workflow Step 1）**
+**输出 3：工程侧消费说明（给 Development Workflow Step 1）**
 
-写入 `docs/plans/<feature-name>.md`：
+不额外创建第二份文件。Development Workflow Step 1 直接消费同一个 `docs/product/<feature-name>.md`，重点读取其中的 MVP 范围、优先级、竞品摘要和技术约束。
 
 ```markdown
 # [Feature Name]
@@ -329,8 +337,10 @@ MVP 范围 = P0 功能集合，目标是 [一句话描述 MVP 交付的核心价
 **文件写入规则：**
 
 - `<feature-name>` 由用户确认，用 kebab-case
-- 两份文档源自相同的 Phase 1-3 输出，确保内容一致
-- 如果不需要 Design Workflow，不写 `-product-brief.md`
+- 产品文档写入 `docs/product/<feature-name>.md`
+- 如果需要设计流程，设计资产统一进入 `docs/designs/<feature>/`
+- `docs/plans/<feature-name>.md` 保留给 `planner` 作为实施方案文件
+- 如果不需要 L2 设计流程，可不创建产品文档
 - 路由决策是建议而非强制，用户可以否决并调整路径
 
 ---
@@ -341,7 +351,7 @@ MVP 范围 = P0 功能集合，目标是 [一句话描述 MVP 交付的核心价
 - [ ] 竞品列表和功能对比经过用户确认
 - [ ] MVP 范围和优先级经过用户确认
 - [ ] 路由决策经过用户确认
-- [ ] 文档已写入 `docs/plans/`
+- [ ] 文档已写入正确目录（如 `docs/product/`）
 - [ ] 用户明确表示「可以进入下一步」
 
 ---
@@ -386,10 +396,10 @@ MVP 范围 = P0 功能集合，目标是 [一句话描述 MVP 交付的核心价
 ```
 /ideate
   │
-  ├─ 输出 -product-brief.md → Design Workflow V2-1 (Design Intent)
-  │                            V2-1 消费：UI 范围、用户流程、功能清单、竞品参考
-  │                            V2-1 输出：designs/<feature>/intent.md（design intent document）
+  ├─ 输出 docs/product/<feature>.md → Design Workflow V2-1 (Design Intent)
+  │                                  V2-1 消费：UI 范围、用户流程、功能清单、竞品参考
+  │                                  V2-1 输出：docs/designs/<feature>/intent.md（design intent document）
   │
-  └─ 输出 .md ──────→ Development Workflow Step 1 (Research & Reuse)
-                         Step 1 消费：MVP 范围、功能优先级、竞品分析、技术约束
+  └─ 同一份 docs/product/<feature>.md ─→ Development Workflow Step 1 (Research & Reuse)
+                                         Step 1 消费：MVP 范围、功能优先级、竞品分析、技术约束
 ```
