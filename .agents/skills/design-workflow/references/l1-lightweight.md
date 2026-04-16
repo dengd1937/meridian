@@ -1,0 +1,27 @@
+# L1 Lightweight UI Change
+
+Use `L1` when **all** of the following are true:
+
+- No new page or major layout pattern
+- No new interaction model
+- No new design-system component
+- No new token is required
+
+## Actions
+
+1. Confirm the change is local and does not introduce new design primitives.
+2. Capture before/after screenshots for the affected area.
+3. Record a short note in `intent.md` or the PR description:
+   - what changed
+   - why it changed
+   - which existing tokens/components were reused
+4. Proceed directly to the development workflow Step 2 and Step 3.
+
+## Outputs
+
+- Updated screenshot(s) for the affected surface
+- A short design note in `intent.md` or the PR
+
+## Escalation Rule
+
+If the change grows into a new page, new interaction, or new token, upgrade immediately to `L2` (full design-workflow skill V2-1 to V2-5).

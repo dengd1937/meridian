@@ -8,7 +8,7 @@ The Feature Implementation Workflow describes the development pipeline: research
 
 1. **Research & Reuse** _(mandatory before any new implementation)_
    - **If `docs/product/<feature>.md` exists**, read it first: MVP scope, feature priorities, competitor analysis, and technical constraints come from the PM stage
-   - **If `docs/designs/<feature>/` exists**, read design artifacts next: `intent.md` for design decisions, approved `screenshots/` for visual target, and `review-verdict.md` for review findings
+   - **If `docs/designs/<feature>/` exists**, invoke **design-workflow** skill and read design artifacts per the V2-5 handoff table (intent.md, screenshots, review-verdict.md)
    - **GitHub code search first:** Run *GitHub MCP* to find existing implementations, templates, and patterns before writing anything new.
    - **Library docs second:** Use Context7 or primary vendor docs to confirm API behavior, package usage, and version-specific details before implementing.
    - **Use docs-lookup when behavior is unclear:** If framework, API, or third-party library behavior is uncertain, run **docs-lookup** agent before implementing.
@@ -20,8 +20,7 @@ The Feature Implementation Workflow describes the development pipeline: research
 2. **Plan First**
    - Use **planner** agent to create implementation plan
    - Save planning doc to `docs/plans/<feature-name>.md` before coding
-   - **If `docs/designs/<feature>/components/*.md` exists**, reference component contracts (variants, states, responsive rules, accessibility, implementation mapping) in the plan
-   - **If `docs/designs/<feature>/review-verdict.md` exists**, account for review findings and constraints in the plan
+   - **If `docs/designs/<feature>/` exists**, invoke **design-workflow** skill and reference component contracts and review findings in the plan per the V2-5 handoff table
    - Identify dependencies and risks
    - Break down into phases
    - **[Hard Gate]** Present the plan to the user for approval before proceeding — **do not write any code until the user explicitly approves**
@@ -30,8 +29,7 @@ The Feature Implementation Workflow describes the development pipeline: research
 3. **TDD Approach**
    - If fixing a bug, run **investigate** skill first before writing any fix code
    - Use **tdd-guide** agent
-   - **If `docs/designs/<feature>/tokens/` exists**, validate that implementation uses token-derived classes (e.g. `bg-primary`, `rounded-md`) not hardcoded values (e.g. `bg-[#hex]`)
-   - **If `docs/designs/<feature>/components/*.md` exists**, write tests that cover the documented states, variants, and accessibility requirements
+   - **If `docs/designs/<feature>/` exists**, invoke **design-workflow** skill to validate token usage and test documented states, variants, and accessibility requirements per the V2-5 handoff table
    - Write tests first (RED)
    - Implement to pass tests (GREEN)
    - Refactor (IMPROVE)
@@ -71,9 +69,8 @@ The Feature Implementation Workflow describes the development pipeline: research
    - Run **commit-quality** skill before committing
    - Validate commit message format (Conventional Commits)
    - Lint staged files only
-   - Scan for debug artifacts (console.log, debugger, print)
-   - Scan for secrets (API keys, tokens, passwords)
-   - Never use `--no-verify` to bypass hooks
+   - Debug artifacts and secrets are caught automatically by pre-write / pre-bash hooks
+   - Never use `--no-verify` — blocked by hook; fix the failing check instead
    - See [git-workflow.md](./git-workflow.md) for commit message format and PR process
 
 8. **Pre-Review Checks**
