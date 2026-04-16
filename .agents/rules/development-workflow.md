@@ -7,6 +7,8 @@ The Feature Implementation Workflow describes the development pipeline: research
 ## Feature Implementation Workflow
 
 1. **Research & Reuse** _(mandatory before any new implementation)_
+   - **If `docs/product/<feature>.md` exists**, read it first: MVP scope, feature priorities, competitor analysis, and technical constraints come from the PM stage
+   - **If `docs/designs/<feature>/` exists**, read design artifacts next: `intent.md` for design decisions, approved `screenshots/` for visual target, and `review-verdict.md` for review findings
    - **GitHub code search first:** Run *GitHub MCP* to find existing implementations, templates, and patterns before writing anything new.
    - **Library docs second:** Use Context7 or primary vendor docs to confirm API behavior, package usage, and version-specific details before implementing.
    - **Use docs-lookup when behavior is unclear:** If framework, API, or third-party library behavior is uncertain, run **docs-lookup** agent before implementing.
@@ -18,6 +20,8 @@ The Feature Implementation Workflow describes the development pipeline: research
 2. **Plan First**
    - Use **planner** agent to create implementation plan
    - Save planning doc to `docs/plans/<feature-name>.md` before coding
+   - **If `docs/designs/<feature>/components/*.md` exists**, reference component contracts (variants, states, responsive rules, accessibility, implementation mapping) in the plan
+   - **If `docs/designs/<feature>/review-verdict.md` exists**, account for review findings and constraints in the plan
    - Identify dependencies and risks
    - Break down into phases
    - **[Hard Gate]** Present the plan to the user for approval before proceeding — **do not write any code until the user explicitly approves**
@@ -26,6 +30,8 @@ The Feature Implementation Workflow describes the development pipeline: research
 3. **TDD Approach**
    - If fixing a bug, run **investigate** skill first before writing any fix code
    - Use **tdd-guide** agent
+   - **If `docs/designs/<feature>/tokens/` exists**, validate that implementation uses token-derived classes (e.g. `bg-primary`, `rounded-md`) not hardcoded values (e.g. `bg-[#hex]`)
+   - **If `docs/designs/<feature>/components/*.md` exists**, write tests that cover the documented states, variants, and accessibility requirements
    - Write tests first (RED)
    - Implement to pass tests (GREEN)
    - Refactor (IMPROVE)

@@ -79,6 +79,8 @@ Use these agents for code review:
 
 ### Code Quality
 
+See [coding-style.md](coding-style.md) for the full checklist. Key items:
+
 - Large functions (>50 lines) - split into smaller
 - Large files (>800 lines) - extract modules
 - Deep nesting (>4 levels) - use early returns
@@ -92,16 +94,6 @@ Use these agents for code review:
 - Missing pagination - add LIMIT to queries
 - Unbounded queries - add constraints
 - Missing caching - cache expensive operations
-
-### Tailwind CSS & shadcn/ui
-
-- Arbitrary Tailwind values (`bg-[#hex]`, `w-[375px]`, `rounded-[6px]`) - use semantic classes (`bg-primary`, `rounded-md`)
-- Custom components recreating shadcn/ui behavior - use shadcn/ui components from `@/components/ui/`
-- String concatenation for class names - use `cn()` from `@/lib/utils`
-- Hardcoded color/spacing values instead of design tokens - reference tokens via semantic Tailwind classes
-- Non-Lucide icon imports (Material Icons, etc.) - use Lucide React icons
-- Tailwind v3 config (`tailwind.config.ts`) in v4 projects - use CSS `@theme` blocks instead
-- Missing CVA variants when component has multiple visual states - define with `class-variance-authority`
 
 ## Approval Criteria
 

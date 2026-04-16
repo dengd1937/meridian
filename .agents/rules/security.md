@@ -58,16 +58,12 @@ See skill: `django-security` for Django-specific security guidelines (if applica
 
 ### Secret Management
 
+- Never hardcode secrets in source code
+- Use `process.env` with startup validation: throw if required key is missing
+
 ```typescript
-// NEVER: Hardcoded secrets
-const openAiCredential = "<hardcoded-example>"
-
-// ALWAYS: Environment variables
-const openAiApiKey = process.env.OPENAI_API_KEY
-
-if (!openAiApiKey) {
-  throw new Error('OPENAI_API_KEY not configured')
-}
+const apiKey = process.env.API_KEY
+if (!apiKey) throw new Error('API_KEY not configured')
 ```
 
 ### Agent Support
