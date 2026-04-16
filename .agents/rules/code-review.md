@@ -1,111 +1,111 @@
-# Code Review Standards
+# 代码审查规范
 
-## Purpose
+## 目的
 
-Code review ensures quality, security, and maintainability before code is merged. This rule defines when and how to conduct code reviews.
+代码审查在代码合并前确保质量、安全性和可维护性。本规则定义何时及如何进行代码审查。
 
-## When to Review
+## 何时审查
 
-**MANDATORY review triggers:**
+**强制触发**（commit 前 / merge 前）：
 
-- After writing or modifying code
-- Before any commit to shared branches
-- When security-sensitive code is changed (auth, payments, user data)
-- When architectural changes are made
-- Before merging pull requests
+- 向共享分支提交任何 commit 前
+- 安全敏感代码变更时（auth、支付、用户数据）
+- 合并 pull request 前
 
-**Pre-Review Requirements:**
+**建议触发**（向用户推荐，非自动触发）：
 
-Before requesting review, ensure:
+- 写完或修改代码后
+- 架构变更时
 
-- All automated checks (CI/CD) are passing
-- Merge conflicts are resolved
-- Branch is up to date with target branch
+**审查前提条件：**
 
-## Review Checklist
+请求审查前确保：
 
-Before marking code complete:
+- 所有自动化检查（CI/CD）已通过
+- merge 冲突已解决
+- 分支已与目标分支同步
 
-- [ ] Code quality standards met (see [coding-style.md](coding-style.md) for full checklist)
-- [ ] No security issues (see [security.md](security.md) for full checklist)
-- [ ] No console.log or debug statements
-- [ ] Tests exist for new functionality
-- [ ] Test coverage meets 80% minimum
+## 审查清单
 
-## Security Review Triggers
+标记代码完成前：
 
-**STOP and use security-reviewer agent when:**
+- [ ] 代码质量达标（完整清单见 [common.md](common.md)）
+- [ ] 无安全问题（安全清单见 [common.md](common.md)）
+- [ ] 无 console.log 或调试语句
+- [ ] 新功能有对应测试
+- [ ] 测试覆盖率达到 80% 最低要求
 
-- Authentication or authorization code
-- User input handling
-- Database queries
-- File system operations
-- External API calls
-- Cryptographic operations
-- Payment or financial code
+## 安全审查触发条件
 
-## Review Severity Levels
+**遇到以下情况立即停下，使用 security-reviewer agent：**
 
-| Level | Meaning | Action |
-|-------|---------|--------|
-| CRITICAL | Security vulnerability or data loss risk | **BLOCK** - Must fix before merge |
-| HIGH | Bug or significant quality issue | **WARN** - Should fix before merge |
-| MEDIUM | Maintainability concern | **INFO** - Consider fixing |
-| LOW | Style or minor suggestion | **NOTE** - Optional |
+- 认证或授权代码
+- 用户输入处理
+- 数据库查询
+- 文件系统操作
+- 外部 API 调用
+- 加密操作
+- 支付或金融代码
 
-## Agent Usage
+## 审查严重等级
 
-Use these agents for code review:
+| 等级 | 含义 | 处理方式 |
+|------|------|---------|
+| CRITICAL | 安全漏洞或数据丢失风险 | **阻塞** — merge 前必须修复 |
+| HIGH | Bug 或重大质量问题 | **警告** — 建议 merge 前修复 |
+| MEDIUM | 可维护性问题 | **提示** — 考虑修复 |
+| LOW | 风格或次要建议 | **备注** — 可选 |
 
-| Agent | Purpose |
-|-------|---------|
-| **code-reviewer** | General code quality, patterns, best practices |
-| **security-reviewer** | Security vulnerabilities, OWASP Top 10 |
-| **python-reviewer** | Python specific issues |
-| **typescript-reviewer** | TypeScript/React type safety, async patterns, hooks |
+## Agent 使用
 
-## Review Workflow
+代码审查使用的 agent：
+
+| Agent | 用途 |
+|-------|------|
+| **code-reviewer** | 通用代码质量、模式、最佳实践 |
+| **security-reviewer** | 安全漏洞、OWASP Top 10 |
+| **python-reviewer** | Python 专项问题 |
+| **typescript-reviewer** | TypeScript/React 类型安全、异步模式、hooks |
+
+## 审查流程
 
 ```
-1. Run git diff to understand changes
-2. Check security checklist first
-3. Review code quality checklist
-4. Run relevant tests
-5. Verify coverage >= 80%
-6. Use appropriate agent for detailed review
+1. 运行 git diff 了解变更
+2. 先检查安全清单
+3. 检查代码质量清单
+4. 运行相关测试
+5. 验证覆盖率 >= 80%
+6. 使用对应 agent 进行详细审查
 ```
 
-## Common Issues to Catch
+## 常见问题排查
 
-### Code Quality
+### 代码质量
 
-See [coding-style.md](coding-style.md) for the full checklist. Key items:
+完整清单见 [common.md](common.md)。关键项：
 
-- Large functions (>50 lines) - split into smaller
-- Large files (>800 lines) - extract modules
-- Deep nesting (>4 levels) - use early returns
-- Missing error handling - handle explicitly
-- Mutation patterns - prefer immutable operations
-- Missing tests - add test coverage
+- 函数过大（>50 行）— 拆分
+- 文件过大（>800 行）— 抽取模块
+- 嵌套过深（>4 层）— 使用提前返回
+- 缺少错误处理 — 显式处理
+- 可变操作模式 — 优先不可变操作
+- 缺少测试 — 补充测试覆盖
 
-### Performance
+### 性能
 
-- N+1 queries - use JOINs or batching
-- Missing pagination - add LIMIT to queries
-- Unbounded queries - add constraints
-- Missing caching - cache expensive operations
+- N+1 查询 — 使用 JOIN 或批量查询
+- 缺少分页 — 查询加 LIMIT
+- 无界查询 — 添加约束条件
+- 缺少缓存 — 对耗时操作加缓存
 
-## Approval Criteria
+## 审批标准
 
-- **Approve**: No CRITICAL or HIGH issues
-- **Warning**: Only HIGH issues (merge with caution)
-- **Block**: CRITICAL issues found
+- **通过**：无 CRITICAL 或 HIGH 问题
+- **警告**：仅有 HIGH 问题（谨慎合并）
+- **阻塞**：发现 CRITICAL 问题
 
-## Integration with Other Rules
+## 与其他规则的关联
 
-This rule works with:
-
-- [testing.md](testing.md) - Test coverage requirements
-- [security.md](security.md) - Security checklist
-- [git-workflow.md](git-workflow.md) - Commit standards
-- [agents.md](agents.md) - Agent delegation
+- [common.md](common.md) — 测试覆盖率要求和安全清单
+- [git-workflow.md](git-workflow.md) — commit 规范
+- [agents.md](agents.md) — Agent 委托

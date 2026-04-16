@@ -1,27 +1,27 @@
-# Git Workflow
+# Git 工作流
 
-## Commit Message Format
+## Commit Message 格式
+
 ```
 <type>: <description>
 
 <optional body>
 ```
 
-Types: feat, fix, refactor, docs, test, chore, perf, ci
+类型：feat, fix, refactor, docs, test, chore, perf, ci
 
-Note: Attribution disabled globally via ~/.claude/settings.json.
+注：署名已通过 `~/.claude/settings.json` 全局禁用。
 
-## Pull Request Workflow
+## Pull Request 工作流
 
-When creating PRs:
-1. Analyze full commit history (not just latest commit)
-2. Use `git diff [base-branch]...HEAD` to see all changes
-3. Draft comprehensive PR summary
-4. Include test plan with TODOs
-5. Push with `-u` flag if new branch
+创建 PR 时：
+1. 分析完整 commit 历史（不只是最新 commit）
+2. 使用 `git diff [base-branch]...HEAD` 查看所有变更
+3. 起草完整的 PR 摘要
+4. 附上含 TODO 的测试计划
+5. 新分支时使用 `-u` 标志推送
 
-When merging PRs:
-- ALWAYS use `--delete-branch` option: `gh pr merge <pr-number> --squash --delete-branch`
+合并 PR 时：
+- 务必使用 `--delete-branch` 选项：`gh pr merge <pr-number> --squash --delete-branch`
 
-> For the full development process (planning, TDD, code review) before git operations,
-> see [development-workflow.md](./development-workflow.md).
+> git 操作前的完整开发流程（规划、TDD、代码审查）见 [development-workflow.md](./development-workflow.md)。

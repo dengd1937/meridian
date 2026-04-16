@@ -1,65 +1,66 @@
-# Agent Orchestration
+# Agent 编排
 
-## Available Agents
+## 可用 Agent
 
-Located in `~/.claude/agents/`:
+位于 `~/.claude/agents/`：
 
-| Agent | Purpose | When to Use |
-|-------|---------|-------------|
-| planner | Implementation planning | Complex features, refactoring |
-| tdd-guide | Test-driven development | New features, bug fixes |
-| code-reviewer | Code review | After writing code |
-| security-reviewer | Security analysis | Before commits |
-| refactor-cleaner | Dead code cleanup | Code maintenance |
-| docs-lookup | Documentation lookup via Context7| API/docs questions |
-| doc-updater | Documentation | Updating docs |
-| python-reviewer | Python code review | Python projects |
-| typescript-reviewer | TypeScript/React code review | TypeScript/Next.js projects |
-| e2e-runner | Browser E2E testing | Critical user flow changes |
-| design-reviewer | Design artifact review | Before design handoff (V2-4 final gate) |
+| Agent | 用途 | 使用时机 |
+|-------|------|---------|
+| planner | 实现方案规划 | 复杂功能、重构 |
+| tdd-guide | 测试驱动开发 | 新功能、bug 修复 |
+| code-reviewer | 代码审查 | 写完代码后 |
+| security-reviewer | 安全分析 | 提交前 |
+| refactor-cleaner | 清理死代码 | 代码维护 |
+| docs-lookup | 通过 Context7 查文档 | API/文档问题 |
+| doc-updater | 文档更新 | 更新文档时 |
+| python-reviewer | Python 代码审查 | Python 项目 |
+| typescript-reviewer | TypeScript/React 代码审查 | TypeScript/Next.js 项目 |
+| e2e-runner | 浏览器 E2E 测试 | 关键用户流程变更 |
+| design-reviewer | 设计产物审查 | 设计交付前（V2-4 最终门控） |
 
-## Immediate Agent Usage
+## 推荐触发场景
 
-No user prompt needed:
-1. Complex feature requests - Use **planner** agent
-2. Code just written/modified - Use **code-reviewer** agent
-3. Bug fix or new feature - Use **tdd-guide** agent
-4. Critical user flow changes - Use **e2e-runner** agent
-5. Design artifacts ready for review - Use **design-reviewer** agent
-6. Bug reported or unexpected behavior - Use **investigate** skill first
-7. Vague product idea needs refinement - Use **ideate** skill (`/ideate`)
+在相关上下文中向用户建议使用（由用户明确触发；commit 前强烈推荐 code-reviewer 和 security-reviewer）：
 
-## Key Skills
+1. 复杂功能需求 — 建议使用 **planner** agent
+2. 代码已写完/修改 — 建议使用 **code-reviewer** agent _（commit 前强烈推荐）_
+3. Bug 修复或新功能 — 建议使用 **tdd-guide** agent
+4. 关键用户流程变更 — 建议使用 **e2e-runner** agent
+5. 设计产物准备好审查 — 建议使用 **design-reviewer** agent
+6. 报告 bug 或出现异常行为 — 优先建议 **investigate** skill
+7. 产品想法模糊需要细化 — 建议 **ideate** skill（`/ideate`）
 
-Located in `.agents/skills/`:
+## 关键 Skill
 
-| Skill | Purpose | When to Use |
-|-------|---------|-------------|
-| ideate | Product idea refinement | Vague idea → structured product definition |
-| investigate | Root-cause analysis | Before any bug fix |
-| design-review | Plan adversarial review | Before implementation, after planner |
-| retro | Post-task retrospective | After feature/fix completion |
+位于 `.agents/skills/`：
 
-## Parallel Task Execution
+| Skill | 用途 | 使用时机 |
+|-------|------|---------|
+| ideate | 产品想法细化 | 模糊想法 → 结构化产品定义 |
+| investigate | 根因分析 | 任何 bug 修复前 |
+| design-review | 方案对抗性审查 | 实现前、planner 之后 |
+| retro | 任务后复盘 | 功能/修复完成后 |
 
-ALWAYS use parallel Task execution for independent operations:
+## 并行任务执行
 
-```markdown
-# GOOD: Parallel execution
-Launch 3 agents in parallel:
-1. Agent 1: Security analysis of auth module
-2. Agent 2: Performance review of cache system
-3. Agent 3: Type checking of utilities
+独立操作务必并行执行：
 
-# BAD: Sequential when unnecessary
-First agent 1, then agent 2, then agent 3
+```
+# 正确：并行执行
+同时启动 3 个 agent：
+1. Agent 1：安全分析 auth 模块
+2. Agent 2：性能审查缓存系统
+3. Agent 3：工具类类型检查
+
+# 错误：不必要的串行
+先 agent 1，再 agent 2，再 agent 3
 ```
 
-## Multi-Perspective Analysis
+## 多视角分析
 
-For complex problems, use split role sub-agents:
-- Factual reviewer
-- Senior engineer
-- Security expert
-- Consistency reviewer
-- Redundancy checker
+对于复杂问题，使用分角色子 agent：
+- 事实审查员
+- 高级工程师
+- 安全专家
+- 一致性审查员
+- 冗余检查员
