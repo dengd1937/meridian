@@ -37,6 +37,14 @@ ALWAYS validate at system boundaries:
 - Fail fast with clear error messages
 - Never trust external data (API responses, user input, file content)
 
+### Surgical Edits
+
+When modifying existing code:
+- Every changed line should trace directly to the task at hand
+- If you notice unrelated dead code, mention it to the user — don't delete it
+- Only remove imports/variables/functions that YOUR changes made unused
+- Don't refactor or reformat adjacent code that you weren't asked to change
+
 ### Code Quality Checklist
 
 Before marking work complete:
