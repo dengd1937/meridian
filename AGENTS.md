@@ -1,122 +1,125 @@
-# Dev-Agent-Foundry Guide
+# Dev-Agent-Foundry 指南
 
-This is a **production-ready AI coding plugin** providing 36 specialized agents, 150 skills, 68 commands, and automated hook workflows for software development.
+这是一个**生产就绪的 AI 编程插件**，提供 36 个专用 agent、150 个 skill、68 个命令和自动化 hook 工作流，用于软件开发。
 
-## Core Principles
+## 核心原则
 
-1. **Agent-First** — Delegate to specialized agents for domain tasks
-2. **Test-Driven** — Write tests before implementation, 80%+ coverage required
-3. **Security-First** — Never compromise on security; validate all inputs
-4. **Immutability** — Always create new objects, never mutate existing ones
-5. **Plan Before Execute** — Plan complex features before writing code
+1. **Agent 优先** — 将领域任务委托给专用 agent
+2. **测试驱动** — 先写测试再实现，80%+ 覆盖率要求
+3. **安全优先** — 安全不妥协；验证所有输入
+4. **不可变性** — 永远创建新对象，禁止原地修改
+5. **先规划后执行** — 复杂功能编码前先规划
 
-## Available Agents
+## 可用 Agent
 
+| Agent | 用途 | 使用时机 |
+|---|---|---|
+| planner | 实现方案规划 | 复杂功能、重构 |
+| tdd-guide | 测试驱动开发 | 新功能、bug 修复 |
+| code-reviewer | 代码质量与可维护性 | 写完/修改代码后 |
+| security-reviewer | 漏洞检测 | commit 前、安全敏感代码 |
+| refactor-cleaner | 清理死代码 | 代码维护 |
+| doc-updater | 文档与 codemap | 更新文档时 |
+| docs-lookup | 通过 Context7 查文档 | API/文档问题 |
+| python-reviewer | Python 代码审查 | Python 项目 |
+| typescript-reviewer | TypeScript/React 代码审查 | TypeScript/Next.js 项目 |
+| e2e-runner | 浏览器 E2E 测试 | 关键用户流程变更 |
 
-| Agent             | Purpose                           | When to Use                    |
-| ----------------- | --------------------------------- | ------------------------------ |
-| planner           | Implementation planning           | Complex features, refactoring  |
-| tdd-guide         | Test-driven development           | New features, bug fixes        |
-| code-reviewer     | Code quality and maintainability  | After writing/modifying code   |
-| security-reviewer | Vulnerability detection           | Before commits, sensitive code |
-| refactor-cleaner  | Dead code cleanup                 | Code maintenance               |
-| doc-updater       | Documentation and codemaps        | Updating docs                  |
-| docs-lookup       | Documentation lookup via Context7 | API/docs questions             |
-| python-reviewer   | Python code review                | Python projects                |
-| typescript-reviewer | TypeScript/React code review    | TypeScript/Next.js projects    |
-| e2e-runner        | Browser E2E testing               | Critical user flow changes     |
+## Agent 编排
 
+在相关场景中向用户建议使用以下 agent（需用户明确触发；commit 前强烈推荐 code-reviewer 和 security-reviewer）：
 
-## Agent Orchestration
+- 复杂功能需求 → **planner**
+- 代码已写完/修改 → **code-reviewer**（commit 前强烈推荐）
+- Bug 修复或新功能 → **tdd-guide**
+- 安全敏感代码 → **security-reviewer**
+- 关键用户流程变更 → **e2e-runner**
 
-Use agents proactively without user prompt:
+独立操作使用并行执行——同时启动多个 agent。
 
-- Complex feature requests → **planner**
-- Code just written/modified → **code-reviewer**
-- Bug fix or new feature → **tdd-guide**
-- Security-sensitive code → **security-reviewer**
-- Critical user flow changes → **e2e-runner**
+## 安全规范
 
-Use parallel execution for independent operations — launch multiple agents simultaneously.
+**任何 commit 前：**
 
-## Security Guidelines
+- 无硬编码密钥（API key、密码、token）
+- 所有用户输入已验证
+- 防 SQL 注入（参数化查询）
+- 防 XSS（HTML 已转义）
+- CSRF 保护已启用
+- 认证/授权已验证
+- 所有接口有限流
+- 错误信息不泄露敏感数据
 
-**Before ANY commit:**
+**密钥管理：** 禁止硬编码密钥。使用环境变量或密钥管理器。启动时验证必要密钥。立即轮换已暴露的密钥。
 
-- No hardcoded secrets (API keys, passwords, tokens)
-- All user inputs validated
-- SQL injection prevention (parameterized queries)
-- XSS prevention (sanitized HTML)
-- CSRF protection enabled
-- Authentication/authorization verified
-- Rate limiting on all endpoints
-- Error messages don't leak sensitive data
+**发现安全问题时：** 立即停下 → 使用 security-reviewer agent → 修复 CRITICAL 问题 → 轮换已暴露密钥 → 排查同类问题。
 
-**Secret management:** NEVER hardcode secrets. Use environment variables or a secret manager. Validate required secrets at startup. Rotate any exposed secrets immediately.
+## 编码风格
 
-**If security issue found:** STOP → use security-reviewer agent → fix CRITICAL issues → rotate exposed secrets → review codebase for similar issues.
+**不可变性（CRITICAL）：** 永远创建新对象，禁止修改。返回应用了变更的新副本。
 
-## Coding Style
+**文件组织：** 多小文件优于少大文件。典型 200-400 行，最大 800 行。按功能/领域组织，而非按类型。高内聚、低耦合。
 
-**Immutability (CRITICAL):** Always create new objects, never mutate. Return new copies with changes applied.
+**错误处理：** 每一层都处理错误。UI 代码提供用户友好的信息。服务端记录详细上下文日志。永远不静默吞掉错误。
 
-**File organization:** Many small files over few large ones. 200-400 lines typical, 800 max. Organize by feature/domain, not by type. High cohesion, low coupling.
+**输入验证：** 在系统边界验证所有用户输入。使用基于 schema 的验证。快速失败并给出清晰信息。永远不信任外部数据。
 
-**Error handling:** Handle errors at every level. Provide user-friendly messages in UI code. Log detailed context server-side. Never silently swallow errors.
+**代码质量清单：**
 
-**Input validation:** Validate all user input at system boundaries. Use schema-based validation. Fail fast with clear messages. Never trust external data.
+- 函数精简（<50 行），文件聚焦（<800 行）
+- 无深层嵌套（>4 层）
+- 完善的错误处理，无硬编码值
+- 可读、命名清晰
 
-**Code quality checklist:**
+## 测试要求
 
-- Functions small (<50 lines), files focused (<800 lines)
-- No deep nesting (>4 levels)
-- Proper error handling, no hardcoded values
-- Readable, well-named identifiers
+**最低覆盖率：80%**
 
-## Testing Requirements
+必须具备的测试类型：
 
-**Minimum coverage: 80%**
+1. **单元测试** — 独立函数、工具类、组件
+2. **集成测试** — API 端点、数据库操作
+3. **E2E 测试** — 关键用户流程
 
-Test types (all required):
+**TDD 工作流（强制）：**
 
-1. **Unit tests** — Individual functions, utilities, components
-2. **Integration tests** — API endpoints, database operations
-3. **E2E tests** — Critical user flows
+1. 先写测试（RED）— 测试应当失败
+2. 写最小实现（GREEN）— 测试应当通过
+3. 重构（IMPROVE）— 验证覆盖率 80%+
 
-**TDD workflow (mandatory):**
+测试失败排查：检查测试隔离 → 验证 mock → 修复实现（而非测试，除非测试本身有误）。
 
-1. Write test first (RED) — test should FAIL
-2. Write minimal implementation (GREEN) — test should PASS
-3. Refactor (IMPROVE) — verify coverage 80%+
+## 开发工作流
 
-Troubleshoot failures: check test isolation → verify mocks → fix implementation (not tests, unless tests are wrong).
+完整的 8 步功能实现工作流见 [.agents/rules/development-workflow.md](.agents/rules/development-workflow.md)。
 
-## Development Workflow
+**快速参考：**
 
-See [.agents/rules/development-workflow.md](.agents/rules/development-workflow.md) for the complete 8-step feature implementation workflow.
+1. 调研与复用 → 2. 先规划 → 3. TDD 方式 → 4. 质量门控 → 5. 代码审查 → 6. 文档决策 → 7. Commit & Push → 8. 预审查检查
 
-**Quick reference:**
+**关于文档创建：**
 
-1. Research & Reuse → 2. Plan First → 3. TDD Approach → 4. Quality Gate → 5. Code Review → 6. Documentation Decision → 7. Commit & Push → 8. Pre-Review Checks
+- `docs/plans/<feature>.md` 是过程文档，由工作流 Step 2 创建，Step 6 删除——不受「不主动创建文档」限制
+- `docs/modules/<module>.md` 需满足条件（新模块/新集成/新技术栈组件）且询问用户后创建
 
-## Git Workflow
+## Git 工作流
 
-**Commit format:** `<type>: <description>` — Types: feat, fix, refactor, docs, test, chore, perf, ci
+**Commit 格式：** `<type>: <description>` — 类型：feat, fix, refactor, docs, test, chore, perf, ci
 
-**PR workflow:** Analyze full commit history → draft comprehensive summary → include test plan → push with `-u` flag.
+**PR 工作流：** 分析完整 commit 历史 → 起草完整摘要 → 附上测试计划 → 新分支使用 `-u` 标志推送。
 
-## Architecture Patterns
+## 架构模式
 
-**API response format:** Consistent envelope with success indicator, data payload, error message, and pagination metadata.
+**API 响应格式：** 统一信封，包含成功标志、数据载荷、错误信息和分页元数据。
 
-**Repository pattern:** Encapsulate data access behind standard interface (findAll, findById, create, update, delete). Business logic depends on abstract interface, not storage mechanism.
+**Repository 模式：** 将数据访问封装在标准接口后（findAll, findById, create, update, delete）。业务逻辑依赖抽象接口而非存储机制。
 
-**Skeleton projects:** Search for battle-tested templates, evaluate with parallel agents (security, extensibility, relevance), clone best match, iterate within proven structure.
+**骨架项目：** 搜索成熟模板，使用并行 agent 评估（安全性、可扩展性、相关性），克隆最优方案，在成熟结构内迭代。
 
-## Success Metrics
+## 验收标准
 
-- All tests pass with 80%+ coverage
-- No security vulnerabilities
-- Code is readable and maintainable
-- Performance is acceptable
-- User requirements are met
+- 所有测试通过，覆盖率 80%+
+- 无安全漏洞
+- 代码可读、可维护
+- 性能达标
+- 满足用户需求
