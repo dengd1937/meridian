@@ -16,6 +16,7 @@
 | design-reviewer | 设计产物审查 |
 | doc-writer | 工作流产出的格式化写入（模板+路径） |
 | doc-updater | 跨工作流共享知识维护（catalog、索引、codemap） |
+| architect | 应用架构分析（技术选型、模块边界、数据模型） |
 
 ## 关键 Skill
 
@@ -25,6 +26,7 @@
 | ideate | 产品想法细化 | `/ideate` |
 | design-review | 方案对抗性审查 | planner 之后、实现前 |
 | retro | 任务后复盘 | 功能/修复完成后 |
+| architect | 架构评估与决策记录 | `/architect` 手动触发 |
 
 ## 文档 Agent 分工
 

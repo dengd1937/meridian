@@ -19,6 +19,9 @@ docs/
 │   ├── components/*.md
 │   ├── tokens/
 │   └── screenshots/
+├── architecture/
+│   ├── adr/           # 架构决策记录（architect skill → doc-writer 写入）
+│   └── ADR-INDEX.md   # ADR 索引
 ├── modules/           # 模块文档（development → doc-writer 写入）
 ├── plans/             # 实施方案（planner，临时的，开发完成后删除）
 ├── FEATURE-CATALOG.md # feature 索引
@@ -103,7 +106,23 @@ docs/
 
 更新时机：development 完成。
 
-### 5. 项目 README 评估
+### 5. ADR Index（`docs/architecture/ADR-INDEX.md`）
+
+扫描 `docs/architecture/adr/*.md`，维护索引：
+
+```markdown
+# ADR Index
+
+**Last Updated:** YYYY-MM-DD
+
+| ADR | 标题 | 状态 | 日期 | 关联 Feature |
+|-----|------|------|------|-------------|
+| [NNNN] | [标题] | 已批准/提议中/已废弃/已替代 | YYYY-MM-DD | [feature] |
+```
+
+更新时机：architect skill 完成。
+
+### 6. 项目 README 评估
 
 **不自动修改 README**。每次触发时评估是否需要同步，向调用者报告建议：
 
@@ -124,7 +143,7 @@ docs/
 
 ## 工作流
 
-1. **扫描**：遍历 docs/product/、docs/designs/、docs/modules/，收集当前所有产物
+1. **扫描**：遍历 docs/product/、docs/designs/、docs/architecture/、docs/modules/，收集当前所有产物
 2. **比对**：读取现有 catalog 文件，比对差异
 3. **更新**：添加新条目、更新状态变更的条目、标记引用已删除文件的条目为 Deprecated
 4. **写入**：将更新后的 catalog 写回磁盘
@@ -137,6 +156,7 @@ docs/
 - ideate 完成 → 更新 feature catalog + 评估 README
 - design-workflow 完成 → 更新 component catalog + feature catalog（设计状态） + 评估 README
 - development-workflow 完成 → 更新 module index + codemap + feature catalog（实现状态） + 评估 README
+- architect skill 完成 → 更新 ADR Index + 评估 README
 
 ## 原则
 
