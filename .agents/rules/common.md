@@ -3,7 +3,7 @@
 ## 代码质量
 
 - **不可变性（CRITICAL）**：永远创建新对象，禁止原地修改 → python-patterns skill / typescript-patterns skill
-- **文件组织**：多小文件 > 少大文件；高内聚低耦合；典型 200-400 行，最大 800 行
+- **文件组织**：多小文件 > 少大文件；高内聚低耦合；典型 200-400 行，最大 800 行 → Hook: `post-write-quality.sh`
 - **错误处理**：每一层显式处理；永不静默吞掉 → python-patterns skill / typescript-patterns skill
 - **输入验证**：系统边界验证，schema 验证，快速失败 → python-patterns skill / typescript-patterns skill
 - **外科手术式修改**：每行改动对应任务；发现无关死代码告知用户而非擅自删除
@@ -17,7 +17,7 @@
 
 ## 安全
 
-密钥由 hooks 物理拦截。以下情况触发 security-reviewer agent：
+密钥由 `pre-write-secrets.sh` 物理拦截。以下情况触发 security-reviewer agent：
 - 认证/授权代码、用户输入处理、数据库查询、文件系统操作
 - 外部 API 调用、加密操作、支付/金融代码
 

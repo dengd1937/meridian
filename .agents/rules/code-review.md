@@ -2,6 +2,8 @@
 
 ## 何时审查
 
+> Commit 前提醒: `pre-commit-review-check.py`
+
 **强制触发**（commit 前 / merge 前）：
 - 向共享分支提交任何 commit 前
 - 安全敏感代码变更时（auth、支付、用户数据）

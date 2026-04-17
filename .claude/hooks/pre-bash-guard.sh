@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Trigger:  PreToolUse — matcher: Bash
-# Behavior: BLOCKS dangerous git commands and wrong package manager usage.
+# Behavior: BLOCKS dangerous git commands, wrong package manager usage,
+#           and non-Conventional-Commit messages.
 # Disable:  chmod -x .claude/hooks/pre-bash-guard.sh
 
 set -euo pipefail
@@ -51,6 +52,27 @@ if is_python_project; then
     if echo "$CMD" | grep -qE "${INVOKE}(pip\s+install|poetry\s+add|conda\s+install|uv\s+pip\s+install)"; then
         log_block "Use 'uv add <package>' instead. pip/poetry/conda/uv pip install do not update pyproject.toml automatically."
         exit 2
+    fi
+fi
+
+# ── Rule 6: Commit message must follow Conventional Commits ───────────────────
+if echo "$FIRST_LINE" | grep -qE "${INVOKE}git\s+commit\b"; then
+    MSG_FIRST=""
+
+    # Extract message: try heredoc (Claude's "$(cat <<'EOF'…)" style)
+    MSG_FIRST=$(printf '%s' "$CMD" | awk '/<<.*EOF/{f=1;next} f&&NF{print;exit}')
+
+    # Fallback: -m "…" (double-quoted)
+    if [[ -z "$MSG_FIRST" ]]; then
+        MSG_FIRST=$(printf '%s' "$CMD" | sed -n 's/.*-m[[:space:]]*"\([^"]*\)".*/\1/p' | head -1)
+    fi
+
+    # Validate if a message was found (skip editor-mode commits with no -m)
+    if [[ -n "$MSG_FIRST" ]]; then
+        if ! echo "$MSG_FIRST" | grep -qE '^(feat|fix|refactor|docs|test|chore|perf|ci)(\([^)]+\))?: .+'; then
+            log_block "Commit message must match '<type>(<scope>): <description>'. Types: feat|fix|refactor|docs|test|chore|perf|ci. Got: ${MSG_FIRST:0:80}"
+            exit 2
+        fi
     fi
 fi
 

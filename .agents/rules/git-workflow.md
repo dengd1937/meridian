@@ -2,6 +2,8 @@
 
 ## Commit Message 格式
 
+> Hook enforced: `pre-bash-guard.sh` Rule 6
+
 ```
 <type>: <description>
 
