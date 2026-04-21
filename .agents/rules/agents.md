@@ -27,6 +27,7 @@
 | design-review | 方案对抗性审查 | planner 之后、实现前 |
 | retro | 任务后复盘 | 功能/修复完成后 |
 | architect | 架构评估与决策记录 | `/architect` 手动触发 |
+| task-driven-development | 逐任务编排（TDD+审查循环） | 标准开发流程（默认） |
 
 ## 文档 Agent 分工
 

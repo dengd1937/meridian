@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # Trigger:  PreToolUse — matcher: Bash
-# Behavior: Soft REMINDER if `git commit` runs without a code-reviewer agent call
-#           since the last commit. Never blocks — always exits 0.
-# Disable:  export SKIP_REVIEW_CHECK=1  OR  chmod -x this file
+# Behavior: HARD BLOCK if `git commit` runs without a code-reviewer agent call
+#           since the last commit. Exit 2 = block, exit 0 = allow.
+# Override: export SKIP_REVIEW_CHECK=1  (emergency only)
 
 import json
 import os
@@ -113,14 +113,14 @@ def _emit(files: list[str], saw_reviewer: bool) -> None:
     suffix = f"\n  ... and {len(unique) - 5} more" if len(unique) > 5 else ""
 
     print(
-        "[hook] REMINDER: code-reviewer agent was not invoked since last commit.\n"
+        "[hook] BLOCKED: code-reviewer agent was not invoked since last commit.\n"
         f"Modified source files:\n"
         f"  - {listed}{suffix}\n"
         "Run code-reviewer (and python-reviewer / typescript-reviewer / security-reviewer as applicable).\n"
-        "Override: export SKIP_REVIEW_CHECK=1",
+        "Emergency override: export SKIP_REVIEW_CHECK=1",
         file=sys.stderr,
     )
-    sys.exit(0)
+    sys.exit(2)
 
 
 if __name__ == "__main__":

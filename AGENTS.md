@@ -7,6 +7,7 @@
 3. **安全优先** — 安全不妥协；验证所有输入
 4. **不可变性** — 永远创建新对象，禁止原地修改
 5. **先规划后执行** — 复杂功能编码前先规划
+6. **逐任务执行** — 多文件改动按任务拆分，每个任务独立走 TDD+审查
 
 ## 规则索引
 
@@ -23,7 +24,7 @@
 
 ## 快速参考
 
-- **开发流程：** 调研 → 规划 → TDD → 质量门控 → 代码审查 → 文档 → Commit → 预审查
+- **开发流程：** 调研 → 规划 → **逐任务循环（TDD→质量门控→审查）** → 文档 → Commit → 预审查
 - **Commit 格式：** `<type>: <description>` — 类型：feat, fix, refactor, docs, test, chore, perf, ci
 - **关键 Agent：** commit 前 → code-reviewer + security-reviewer；bug 修复前 → investigate
 

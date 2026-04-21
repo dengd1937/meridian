@@ -95,6 +95,7 @@ meridian/
 | [investigate](.agents/skills/investigate/SKILL.md) | 根因分析门禁 — 假设优先调试，禁止无调查改代码 |
 | [retro](.agents/skills/retro/SKILL.md) | 任务复盘 — 审视流程遵守、决策路径与 AI 行为，提出改进建议 |
 | [using-git-worktrees](.agents/skills/using-git-worktrees/SKILL.md) | Git worktree 并行开发，减少 stash 和上下文切换 |
+| [task-driven-development](.agents/skills/task-driven-development/SKILL.md) | 多文件改动按任务编排 — 逐任务 TDD+审查循环 |
 
 ## 当前 Claude Code Agents
 

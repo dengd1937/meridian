@@ -9,7 +9,7 @@
 | `pre-bash-guard.sh` | PreToolUse[Bash] | 硬阻塞 | 拦截危险 git 命令、错误包管理器 |
 | `pre-write-secrets.sh` | PreToolUse[Write\|Edit] | 硬阻塞 | 扫描密钥/私钥写入源码 |
 | `post-write-debug.sh` | PostToolUse[Write\|Edit] | 软警告 | 检测新增调试语句 |
-| `pre-commit-review-check.py` | PreToolUse[Bash] | 软警告 | git commit 前检查 code-reviewer 是否被调用 |
+| `pre-commit-review-check.py` | PreToolUse[Bash] | 硬阻塞 | git commit 前检查 code-reviewer 是否被调用 |
 
 ## 禁用单个 Hook
 
@@ -59,7 +59,7 @@ echo '{"tool_name":"Bash","tool_input":{"command":"pip install requests"}}' \
   | bash .claude/hooks/pre-bash-guard.sh
 # 预期（有 pyproject.toml）：exit 2；（无 pyproject.toml）：exit 0
 
-# 测试 7：git commit + 无 reviewer → REMINDER（需 transcript_path 指向含 Edit 记录的 JSONL）
+# 测试 7：git commit + 无 reviewer → BLOCKED（需 transcript_path 指向含 Edit 记录的 JSONL）
 # 测试 8：git commit + reviewer 已调用 → silent（JSONL 含 Task(code-reviewer)）
 # 测试 9：SKIP_REVIEW_CHECK=1 时总是 silent
 #   SKIP_REVIEW_CHECK=1 echo '...' | python3 .claude/hooks/pre-commit-review-check.py

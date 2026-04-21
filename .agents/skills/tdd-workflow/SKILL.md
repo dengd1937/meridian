@@ -48,6 +48,38 @@ ALWAYS write tests first, then implement code to make tests pass.
 - UI interactions
 
 ### 4. Git Checkpoints
+
+## Common Rationalizations and Rebuttals
+
+| Excuse | Reality |
+|--------|---------|
+| "It's too simple to need tests" | Simple code breaks too. Writing a test takes 30 seconds. |
+| "I'll write all files first, then add tests" | Tests written after verify what you wrote, not what you should have written. |
+| "Implement first, test after — same result" | Writing tests first reveals design problems; tests after only verify boundaries you remember. |
+| "Tight deadline, skip it this time" | Time saved by skipping TDD < time spent debugging. Every time is "this time". |
+| "I already verified it manually" | Manual verification is not repeatable and cannot prevent regressions. |
+| "It's just a refactor, no new tests needed" | Refactoring without test protection is blind modification. |
+| "Tests are too complex to write" | Complex tests = complex design. Simplify the design first. |
+
+## Red Flags
+
+If any of these signals appear → stop current work and restart from the RED phase:
+
+- Implementation code written before tests
+- Tests pass immediately (never saw RED)
+- Writing tests for multiple files then implementing all at once
+- Saying "skip TDD this time"
+- Skipping RED or GREEN verification
+- Merging tests from multiple tasks into one
+
+## Multi-File TDD Execution Order
+
+When changes span multiple files:
+
+- Split by task; each task runs its own RED→GREEN→IMPROVE cycle
+- Never batch-write tests or batch-implement
+- Run test verification immediately after each task completes; do not wait until all tasks are done
+- Follow the orchestration logic in the task-driven-development skill
 - If the repository is under Git, create a checkpoint commit after each TDD stage
 - Do not squash or rewrite these checkpoint commits until the workflow is complete
 - Each checkpoint commit message must describe the stage and the exact evidence captured
