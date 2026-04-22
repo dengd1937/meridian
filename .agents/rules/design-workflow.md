@@ -17,6 +17,12 @@
 
 L2 Gate 3 通过后的产物（intent.md、screenshots/、components/、tokens/）进入 development-workflow。开发时通过 Pencil MCP 实时读取设计属性。
 
+## DESIGN.md
+
+- **存在时**：作为视觉身份唯一权威（SSOT），设计工作流（L1 和 L2）从中派生 token 并以其为设计护栏
+- **不存在时**：现有流程不变
+- **单向**：工作流不会回写 DESIGN.md；设计需求超出范围时修正设计，不修改文件
+
 ## 文档维护
 
 设计工作流（L1 或 L2）完成后：

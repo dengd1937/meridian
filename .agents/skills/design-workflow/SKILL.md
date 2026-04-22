@@ -16,6 +16,7 @@ metadata:
 - Pencil MCP server running locally (desktop client or IDE extension)
 - [pencil-design skill](../pencil-design/SKILL.md) installed
 - `style-dictionary` and `style-dictionary-utils` available for the token pipeline
+- (Optional) `DESIGN.md` in the project root — if present, it becomes the visual identity SSOT
 
 ---
 
@@ -34,6 +35,22 @@ metadata:
 4. **Design docs capture constraints, not duplicate implementation.**
    - Markdown component docs describe behavior, mapping, responsive rules, accessibility, and visual constraints.
    - Source code owns the final TypeScript props and implementation details.
+5. **DESIGN.md is the visual identity authority when it exists.**
+   - Read `DESIGN.md` at the start of every V2 stage.
+   - Tokens are derived from DESIGN.md (color palette → brand tokens, typography → font tokens, etc.).
+   - DESIGN.md is one-way: the design workflow never writes back to it. If a design need falls outside DESIGN.md scope, fix the design, not the file.
+
+---
+
+## DESIGN.md Integration
+
+When `DESIGN.md` exists in the project root, it serves as the visual identity single source of truth (SSOT). The 9 DESIGN.md sections map to three roles:
+
+- **Token derivation** (6 sections): Color palette → color tokens; Typography → font tokens; Layout principles → spacing/radius/breakpoint tokens; Depth and elevation → shadow tokens; Component styles → component-level token defaults; Responsive behavior → breakpoint tokens and touch targets.
+- **Validation constraint** (1 section): Do's and don'ts — applied as hard validation rules during V2-3 and V2-4.
+- **Context reference** (2 sections): Visual theme and atmosphere, Agent prompt guide — used as ambient context, not tokenized.
+
+See pencil-design skill `tokens-and-variables.md` for the complete mapping table.
 
 ---
 
@@ -59,8 +76,10 @@ Investigate requirements and establish design direction before editing the canva
 
 **Actions:**
 
-- **If `docs/product/<feature>.md` exists**, read it first as the primary input: UI scope, user flows, feature list, competitor references, and design constraints come from the PM stage
+- **If `DESIGN.md` exists**, read it first as the visual identity source: color palette, typography, component styles, layout principles, depth rules, do's and don'ts, and responsive behavior become hard constraints for all subsequent stages
+- **If `docs/product/<feature>.md` exists**, read it as the functional requirements input: UI scope, user flows, feature list, competitor references, and design constraints come from the PM stage
 - Analyze the UI scope: pages, components, interactions, and constraints
+- **If `DESIGN.md` exists**, classify components into "matches existing DESIGN.md component styles" vs "requires new component variant"
 - Search the project for reusable design assets and existing `docs/designs/` directories
 - Use `pencil_batch_get` with `patterns: [{ reusable: true }]` to discover reusable components
 - Use `pencil_get_variables` to inspect the existing token system
@@ -78,12 +97,20 @@ Create the page structure and establish the minimum token set needed to support 
 
 **Actions:**
 
-1. Define/confirm baseline tokens (brand, semantic, surface, typography, radius) — see pencil-design skill for complete token reference.
-2. Verify tokens with `pencil_get_variables`.
-3. Build the wireframe and page regions using reusable components and tokenized values only.
-4. Capture review screenshots to `screenshots/.tmp/`.
-5. Run `pencil_snapshot_layout({ problemsOnly: true })` on the affected screens.
-6. Iterate until the page structure and regions are stable.
+1. **If `DESIGN.md` exists**, derive baseline tokens from it (see mapping table in pencil-design `tokens-and-variables.md`):
+   - Color tokens ← DESIGN.md *Color palette and roles*
+   - Typography tokens ← DESIGN.md *Typography rules*
+   - Spacing / border-radius tokens ← DESIGN.md *Layout principles*
+   - Shadow tokens ← DESIGN.md *Depth and elevation*
+   - Component skeleton styles ← DESIGN.md *Component styles*
+   - *Visual theme and atmosphere* and *Agent prompt guide* sections serve as context reference only
+   - *Do's and don'ts* is not tokenized — it applies as a validation constraint in V2-3 and V2-4
+2. If `DESIGN.md` does not exist, define/confirm baseline tokens (brand, semantic, surface, typography, radius) as usual — see pencil-design skill for complete token reference.
+3. Verify tokens with `pencil_get_variables`.
+4. Build the wireframe and page regions using reusable components and tokenized values only.
+5. Capture review screenshots to `screenshots/.tmp/`.
+6. Run `pencil_snapshot_layout({ problemsOnly: true })` on the affected screens.
+7. Iterate until the page structure and regions are stable.
 
 **Outputs:**
 
@@ -100,6 +127,12 @@ Refine the wireframe into the final design, expand the token system, and documen
 **Actions:**
 
 1. Refine the design to high fidelity in `design.pen`.
+2. **If `DESIGN.md` exists**, enforce its rules as hard guardrails:
+   - Component styles must stay within DESIGN.md *Component styles* definitions
+   - Colors must stay within DESIGN.md *Color palette and roles* scope
+   - DESIGN.md *Do's and don'ts* are non-negotiable constraints
+   - Responsive behavior must follow DESIGN.md *Responsive behavior* module
+   - Any design element outside DESIGN.md scope must be flagged — fix the design, not the file
 2. Expand tokens (spacing, shadows, breakpoints, theme variants) as needed.
 3. Run token pipeline — see pencil-design skill.
 4. Verify generated outputs (`tokens.css`, `tokens.ts`, `tailwind-preset.ts`).
@@ -129,6 +162,12 @@ Review all design artifacts before handoff. This is the single hard approval gat
 
 Run the `design-reviewer` agent against `docs/designs/<feature>/`. The agent checks token coverage, contract completeness, artifact consistency, a11y docs, and responsive coverage.
 
+**If `DESIGN.md` exists**, the agent additionally checks:
+- Do all tokens trace back to a DESIGN.md rule?
+- Are there colors, fonts, or component variants not defined in DESIGN.md?
+- Does the design violate any DESIGN.md *Do's and don'ts*?
+- Violations require fixing the design — never extend DESIGN.md to accommodate them.
+
 **Visual quality is still reviewed by humans, not the agent.**
 
 **Phase 3 - User approval**
@@ -151,6 +190,8 @@ Run the `design-reviewer` agent against `docs/designs/<feature>/`. The agent che
 
 After Gate 3, design artifacts become inputs to the development workflow.
 
+**If `DESIGN.md` exists**, all handoff artifacts already comply with it (enforced in V2-3 and V2-4). Ensure `intent.md` references DESIGN.md as the visual authority so the development workflow maintains the same constraints.
+
 | Dev Step | Consumes | How |
 |----------|----------|-----|
 | Step 1 (Research & Reuse) | `intent.md`, `screenshots/`, Pencil MCP | Confirm design direction and visual target; read precise properties via MCP if needed |
@@ -168,6 +209,7 @@ After Gate 3, design artifacts become inputs to the development workflow.
 - **Review findings (V2-4 → V2-3)**: update design/screenshots/contracts → re-run V2-4
 - **Dev discovers gap**: update design artifact in same PR → keep code and design aligned
 - **Direction change**: update intent.md with new rationale → restart from V2-1
+- **DESIGN.md violation found during V2-3 or V2-4**: fix the design to comply → never modify DESIGN.md to accommodate the design
 
 ---
 

@@ -138,6 +138,40 @@ doc-updater agent（独立上下文）
 - **doc-writer**：集中管理 7 个文档模板，接收数据后格式化写入
 - **doc-updater**：维护 feature catalog、component catalog、module index、codemap，评估 README 同步需求
 
+## DESIGN.md
+
+`DESIGN.md` 是一份放在项目根目录的纯 Markdown 文件，定义项目的视觉设计系统（色彩、字体、组件样式、布局、响应式等），供 AI agent 生成 UI 时参照。源自 [Google Stitch](https://stitch.withgoogle.com/docs/design-md/overview) 提出的标准，采用 9 模块结构。
+
+### 为什么需要它
+
+没有 DESIGN.md 时，AI agent 生成的 UI 会趋向通用风格（圆角卡片、蓝紫渐变、居中 Hero）。引入后，agent 在生成任何 UI 前自动读取 DESIGN.md 作为视觉约束，输出与品牌风格一致的结果。
+
+### 如何获取
+
+**方式一：从社区收藏拉取**
+
+[VoltAgent/awesome-design-md](https://github.com/VoltAgent/awesome-design-md) 收录了 55+ 品牌设计系统模板（Stripe、Linear、Vercel、Apple 等），可直接使用：
+
+```bash
+# 在项目根目录执行，自动下载 DESIGN.md
+npx getdesign@latest add linear.app
+```
+
+也可在 [getdesign.md](https://getdesign.md) 在线浏览和预览。
+
+**方式二：从已有设计系统整理**
+
+如果项目已有 Figma token、Tailwind config、品牌指南等，按 [DESIGN.md 9 模块结构](https://getdesign.md/what-is-design-md) 手动整理为 Markdown 文件，放在项目根目录即可。
+
+> 反向自动生成工具（从 Tailwind config / CSS 变量等自动生成 DESIGN.md）计划在未来提供。
+
+### 引入后效果
+
+- 设计工作流规则（`.agents/rules/design-workflow.md`）和 skill 会指示 AI agent 在设计工作开始前和每个主要设计阶段读取 DESIGN.md
+- 如果项目根目录也有 `CLAUDE.md`，它也会指示 agent 在生成 UI 前读取 DESIGN.md
+- 设计工作流 V2 各阶段以 DESIGN.md 为视觉身份唯一权威（SSOT），token 从中派生
+- 单向流：DESIGN.md 创建后不随设计工作流更新，用户如需变更需手动修改
+
 ## 使用方式
 
 ### 方式一：直接复制共享资产

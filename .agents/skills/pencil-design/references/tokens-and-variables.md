@@ -4,7 +4,29 @@
 
 Covers reading, creating, and mapping Pencil variables to the Style Dictionary token pipeline.
 
-## Reading Variables
+## Deriving Tokens from DESIGN.md
+
+When `DESIGN.md` exists in the project root, baseline tokens are derived from it rather than invented. The following table maps each DESIGN.md section to its corresponding token category.
+
+### Mapping Table
+
+| DESIGN.md Section | Token Category | Derivation Rule |
+|---|---|---|
+| Color palette and roles | Brand / Semantic / Surface / UI colors | Each named color with its hex value maps to a Pencil variable. Use the semantic name from DESIGN.md (e.g., "brand accent" → `accent`). |
+| Typography rules | `font-sans`, `font-mono`, `font-heading`, `text-*` | Font family → `font-*` variables. Size hierarchy → `text-xs/sm/base/lg/xl` scale. Weight, line-height, and letter-spacing are applied at the component level. |
+| Layout principles | `spacing-*`, `radius-*`, `breakpoint-*` | Base unit and spacing scale → `spacing-xs` through `spacing-2xl`. Border-radius scale → `radius-sm/md/lg/xl`. Container width → `breakpoint-*`. |
+| Depth and elevation | `shadow-*` | Each shadow level maps to `shadow-sm/md/lg/xl` with the specified rgba values. |
+| Component styles | Component-level token defaults | Padding, border-radius, font-size per component serve as defaults when building wireframes. |
+| Visual theme and atmosphere | *Context reference only* | Not tokenized. Used as ambient context to guide design decisions (e.g., "minimalism as engineering principle" informs spacing and decoration choices). |
+| Do's and don'ts | *Constraint layer* | Not tokenized. Applied as validation rules during V2-3 and V2-4. |
+| Responsive behavior | `breakpoint-*`, touch target constraints | Breakpoint values → `breakpoint-sm/md/lg/xl`. Touch target minimum noted for component padding. |
+| Agent prompt guide | *Context reference only* | Not tokenized. Quick-reference color summary used for fast agent reads. |
+
+### Priority
+
+When DESIGN.md exists: **DESIGN.md values > existing Pencil variables > defaults**.
+
+If a DESIGN.md value conflicts with an existing Pencil variable, use the DESIGN.md value and update the variable via `pencil_set_variables`.
 
 Always read tokens at the start of any design task:
 
