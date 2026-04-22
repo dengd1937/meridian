@@ -39,7 +39,7 @@ description: 标准开发流程的执行引擎。按任务粒度执行 TDD + 审
 通过 Agent tool 调度 `tdd-guide` 子代理：
 
 - 粘贴完整任务文本到 prompt，不让子代理读计划文件（上下文隔离）
-- 子代理执行：TDD RED→GREEN→IMPROVE → 质量门控 → Commit
+- 子代理执行：TDD RED→GREEN→IMPROVE
 - 等待状态报告
 
 | 状态 | 处理 |
@@ -49,17 +49,32 @@ description: 标准开发流程的执行引擎。按任务粒度执行 TDD + 审
 | BLOCKED | 报告用户，拆分或补充上下文 |
 | NEEDS_CONTEXT | 补充信息，重新调度 |
 
-### Step 2：规格合规审查
+### Step 2：质量门控
+
+tdd-guide 完成后，调用 `/code-quality-gate` skill：
+
+- 格式化（ruff format / prettier）
+- Lint（ruff check / eslint）
+- 类型检查（mypy / tsc --noEmit）
+- Debug 产物检测（console.log / print / debugger）
+
+全项通过 → Step 3。有失败 → 修复后重跑质量门控。
+
+### Step 3：规格合规审查
 
 调度 `code-reviewer`，对照原始任务要求：是否完成全部要求、是否遗漏边界条件、是否偏离范围。
 
-### Step 3：代码质量审查
+### Step 4：代码质量审查
 
 规格合规通过后，调度 `code-reviewer` 做标准质量审查。安全敏感代码加 security-reviewer；Python 加 python-reviewer；TS 加 typescript-reviewer。
 
-### Step 4：门控判定
+### Step 5：门控判定
 
-通过 → 下一任务。未通过 → 修复 → 回到 Step 2 重新审查。
+通过 → Step 6。未通过 → 修复 → 回到 Step 2 重新质量门控和审查。
+
+### Step 6：Commit
+
+调用 `/commit-quality` skill 提交当前任务。commit 后 → 下一任务。
 
 ---
 
@@ -80,7 +95,7 @@ description: 标准开发流程的执行引擎。按任务粒度执行 TDD + 审
 
 ## 反逃避机制
 
-**NEVER：** 跳过任务 TDD 循环 / 合并多任务审查 / 审查未通过就下一任务 / 让子代理读计划文件 / 自行判定"太简单不需要 TDD" / 批量写测试或批量实现
+**NEVER：** 跳过任务 TDD 循环 / 跳过质量门控 / 合并多任务审查 / 审查未通过就下一任务 / 让子代理读计划文件 / 自行判定"太简单不需要 TDD" / 批量写测试或批量实现
 
 **Red Flags：** 跳过审查的理由是"改动小" / 多任务合并审查 / 子代理状态不明确 / 先实现后补测试 / 问题标记为"后续处理"
 

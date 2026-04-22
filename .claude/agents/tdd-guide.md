@@ -107,8 +107,7 @@ When dispatched by the task-driven-development skill, enter single-task executio
 ### Execution Chain
 
 1. TDD RED→GREEN→IMPROVE (for the current task)
-2. Quality gate (format / lint / typecheck)
-3. Commit
+2. 报告状态给调度方（质量门控和 commit 由 task-driven-development skill 统一管理）
 
 ### Status Reporting
 
