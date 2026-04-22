@@ -27,6 +27,8 @@
 - **开发流程：** 调研 → 规划 → **逐任务循环（TDD→质量门控→审查）** → 文档 → Commit → 预审查
 - **Commit 格式：** `<type>: <description>` — 类型：feat, fix, refactor, docs, test, chore, perf, ci
 - **关键 Agent：** commit 前 → code-reviewer + security-reviewer；bug 修复前 → investigate
+- **DESIGN.md：** 如项目根目录存在，UI 工作开始前和每个主要设计阶段必须读取；将色彩、字体、组件样式、布局、层级、Do/Don'ts、响应式作为硬约束
+- **设计缺口：** 如无 DESIGN.md，先使用已有产品/设计产物和可复用组件；仍无项目审美输入时才使用保守默认值。DESIGN.md 默认只读，超出范围时记录 design identity gap，由用户决定收敛设计或更新 DESIGN.md
 
 ## 验收标准
 

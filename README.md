@@ -172,7 +172,7 @@ npx getdesign@latest add linear.app
 ### 引入后效果
 
 - 设计工作流规则（`.agents/rules/design-workflow.md`）和 skill 会指示 AI agent 在设计工作开始前和每个主要设计阶段读取 DESIGN.md
-- 如果项目根目录也有 `CLAUDE.md`，它也会指示 agent 在生成 UI 前读取 DESIGN.md
+- `AGENTS.md` 会在快速参考中指示 agent 在生成 UI 前读取 DESIGN.md
 - 设计工作流 V2 各阶段以 DESIGN.md 为视觉身份唯一权威（SSOT），token 从中派生
 - 默认只读：工作流不会静默修改 DESIGN.md；如果设计需求超出 DESIGN.md，会记录 design identity gap，并要求用户决定是收敛设计还是更新 DESIGN.md
 - 没有 DESIGN.md 时，工作流退回到已有产品/设计产物；仍无项目审美输入时，才使用保守 fallback
