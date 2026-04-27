@@ -32,8 +32,8 @@
 
 - 测试覆盖率 80%+，无安全漏洞，满足用户需求
 
-## UI Generation Rules
+## UI 生成规则
 
-- If `DESIGN.md` exists in the project root, read it before starting any design work and at each major design stage. Treat its color palette, typography, component styles, layout principles, depth rules, do's and don'ts, and responsive behavior as hard constraints — not suggestions.
-- If `DESIGN.md` does not exist, proceed without visual constraints.
-- DESIGN.md is read-only within the workflow: never modify it to accommodate a design. Fix the design instead.
+- 项目根目录存在 `DESIGN.md` 时，在开始任何设计工作及每个主要设计阶段前必须读取。其色彩、字体、组件样式、布局原则、层级规则、行为规范和响应式行为作为硬性约束 — 不是建议。
+- `DESIGN.md` 不存在时，无视觉约束地继续工作。
+- `DESIGN.md` 在工作流中只读：永远不要为迁就设计而修改它，应修改设计本身。

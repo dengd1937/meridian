@@ -46,6 +46,23 @@ meridian/
 └── docs/                            # 文档产物（plans、designs、modules）
 ```
 
+## 工作流
+
+从想法到代码，三条工作流按需串联：
+
+```
+/ideate ─→ design-workflow ─→ task-driven-development
+  产品想法      UI 设计           逐任务开发
+```
+
+| 阶段 | 触发 | 做什么 | 产出 |
+|------|------|--------|------|
+| **Ideate** | `/ideate` | 产品发现、竞品调研、功能分析与优先级 | `docs/product/` |
+| **Design** | 新 UI 功能自动路由 L1/L2 | 意图 → wireframe → 高保真 → 审查门控 | `docs/designs/`（tokens、组件契约） |
+| **Development** | 实现阶段 | 调研 → 规划 → 逐任务 TDD → 质量门控 → 审查 → commit | 已提交代码（80%+ 覆盖率） |
+
+三条工作流独立可用 — 纯后端功能跳过 Design，无 UI 变更的重构跳过 Ideate 和 Design。
+
 ## Skills
 
 | Skill | 用途 |
