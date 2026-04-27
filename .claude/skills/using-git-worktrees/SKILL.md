@@ -99,7 +99,7 @@ Each worktree runs its own pre-commit hooks on commit. This is the intended beha
 
 ### IDE: Use Separate Windows Per Worktree
 
-Open each worktree as its own project window in Cursor or VS Code. Do not try to manage multiple worktrees from a single editor window — each worktree is effectively a separate project.
+Open each worktree as its own project window in VS Code. Do not try to manage multiple worktrees from a single editor window — each worktree is effectively a separate project.
 
 ### Claude Code Agent Isolation
 
